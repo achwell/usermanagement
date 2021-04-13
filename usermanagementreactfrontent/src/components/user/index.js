@@ -7,7 +7,6 @@ import {Modal} from "../modal/modal";
 import UserForm from "./userform";
 import Usertable from "./userTable";
 import roleService from "../../service/role.service";
-import Button from "@material-ui/core/Button";
 
 const UserComponent = forwardRef((props, ref) => {
     useImperativeHandle(
@@ -33,11 +32,11 @@ const UserComponent = forwardRef((props, ref) => {
     const [selectedName, setSelectedName] = useState(null);
     const [selectedUser, setSelectedUser] = useState(null);
 
-    const canCreate = authenticationService.hasPrivilege("user:create");
-    const canRead = authenticationService.hasPrivilege("user:read");
-    const canUpdate = authenticationService.hasPrivilege("user:update");
-    const canDelete = authenticationService.hasPrivilege("user:delete");
-    const canSeeLogintime = authenticationService.hasPrivilege("user:seelogintime");
+    const canCreate = authenticationService.hasAuthority("user:create");
+    const canRead = authenticationService.hasAuthority("user:read");
+    const canUpdate = authenticationService.hasAuthority("user:update");
+    const canDelete = authenticationService.hasAuthority("user:delete");
+    const canSeeLogintime = authenticationService.hasAuthority("user:seelogintime");
 
     const history = useHistory();
 

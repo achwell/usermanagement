@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
-public class Privilege extends BaseDomainObject {
+public class Authority extends BaseDomainObject {
 
     @Id
     @GeneratedValue(strategy = AUTO)
@@ -17,10 +17,10 @@ public class Privilege extends BaseDomainObject {
     @Column(unique = true, nullable = false)
     private String name;
 
-    public Privilege() {
+    public Authority() {
     }
 
-    public Privilege(Long id, String name) {
+    public Authority(Long id, String name) {
         this.id = id;
         this.name = name;
     }

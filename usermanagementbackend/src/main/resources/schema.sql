@@ -1,6 +1,6 @@
 drop table if exists role;
-drop table if exists privilege;
-drop table if exists roles_privileges;
+drop table if exists authority;
+drop table if exists roles_authorities;
 drop table if exists user;
 drop sequence if exists hibernate_sequence;
 
@@ -11,14 +11,14 @@ create table role (
     name VARCHAR(255) NOT NULL,
     UNIQUE INDEX (name)
 );
-create table privilege (
+create table authority (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     UNIQUE INDEX (name)
 );
-create table roles_privileges (
+create table roles_authorities (
     role_id INT NOT NULL,
-    privilege_id INT NOT NULL
+    authority_id INT NOT NULL
 );
 create table user  (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -39,8 +39,8 @@ create table user  (
     UNIQUE INDEX (username)
 );
 
-ALTER table roles_privileges ADD CONSTRAINT fk_roles_privileges_privilege FOREIGN KEY (privilege_id) REFERENCES privilege(id) ON DELETE CASCADE;
-ALTER table roles_privileges ADD CONSTRAINT fk_roles_privileges_role FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE CASCADE;
+ALTER table roles_authorities ADD CONSTRAINT fk_roles_authorities_authority FOREIGN KEY (authority_id) REFERENCES authority(id) ON DELETE CASCADE;
+ALTER table roles_authorities ADD CONSTRAINT fk_roles_authorities_role FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE CASCADE;
 ALTER table user ADD CONSTRAINT fk_user_role FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 

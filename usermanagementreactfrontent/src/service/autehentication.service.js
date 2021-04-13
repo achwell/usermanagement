@@ -56,7 +56,7 @@ const authenticationService = {
         return user && user.username;
     },
 
-    hasPrivilege(privilege) {
+    hasAuthority(authority) {
         const user = this.getUserFromLocalCache();
         if (!user) {
             return false;
@@ -65,13 +65,13 @@ const authenticationService = {
         if (!role) {
             return false;
         }
-        let hasPrivilege = false;
-        role.privileges.forEach(p => {
-            if(p.name === privilege) {
-                hasPrivilege = true;
+        let hasAuthority = false;
+        role.authorities.forEach(p => {
+            if(p.name === authority) {
+                hasAuthority = true;
             }
         })
-        return hasPrivilege;
+        return hasAuthority;
     }
 };
 export default authenticationService;

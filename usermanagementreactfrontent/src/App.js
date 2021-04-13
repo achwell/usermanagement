@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 function App(props) {
 
     const classes = useStyles();
-    const canCreate = authenticationService.hasPrivilege("user:create");
+    const canCreate = authenticationService.hasAuthority("user:create");
 
     const userComponentRef = useRef();
     const systemStatusComponentRef = useRef();

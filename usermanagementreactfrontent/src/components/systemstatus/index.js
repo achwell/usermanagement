@@ -88,7 +88,7 @@ class Systemstatus extends React.Component {
     }
 
     render() {
-        if(!authenticationService.hasPrivilege("system:status")) {
+        if(!authenticationService.hasAuthority("system:status")) {
             return null;
         }
         const {timestamp, diskSpace, dbStatus, systemStatus, systemCpu} = this.state;

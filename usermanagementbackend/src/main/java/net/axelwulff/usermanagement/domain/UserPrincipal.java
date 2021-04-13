@@ -24,7 +24,7 @@ public class UserPrincipal implements UserDetails {
         if(role == null) {
             return new HashSet<>();
         }
-        Set<SimpleGrantedAuthority> authorities = role.getPrivileges().stream()
+        Set<SimpleGrantedAuthority> authorities = role.getAuthorities().stream()
                 .map(p -> new SimpleGrantedAuthority(p.getName()))
                 .collect(toSet());
         authorities.add(new SimpleGrantedAuthority(role.getName()));

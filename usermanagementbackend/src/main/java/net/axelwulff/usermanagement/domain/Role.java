@@ -18,18 +18,18 @@ public class Role extends BaseDomainObject {
 
     @ManyToMany(fetch = LAZY)
     @JoinTable(
-            name = "roles_privileges",
+            name = "roles_authorities",
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
-    private Collection<Privilege> privileges;
+            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+    private Collection<Authority> authorities;
 
     public Role() {
     }
 
-    public Role(Long id, String name, Collection<Privilege> privileges) {
+    public Role(Long id, String name, Collection<Authority> authorities) {
         this.id = id;
         this.name = name;
-        this.privileges = privileges;
+        this.authorities = authorities;
     }
 
     public Long getId() {
@@ -48,11 +48,11 @@ public class Role extends BaseDomainObject {
         this.name = name;
     }
 
-    public Collection<Privilege> getPrivileges() {
-        return privileges;
+    public Collection<Authority> getAuthorities() {
+        return authorities;
     }
 
-    public void setPrivileges(Collection<Privilege> privileges) {
-        this.privileges = privileges;
+    public void setAuthorities(Collection<Authority> authorities) {
+        this.authorities = authorities;
     }
 }

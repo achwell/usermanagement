@@ -81,7 +81,7 @@ class LoginComponent extends Component {
                             <th>Username</th>
                             <th>Password</th>
                             <th>Role</th>
-                            <th>Privileges</th>
+                            <th>Authorities</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -113,7 +113,7 @@ class LoginComponent extends Component {
                         <td colSpan="4">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colSpan="4"><a target="_blank" href="http://localhost:8081/h2-console">Databaseconsole</a></td>
+                        <td colSpan="4"><a target="_blank" rel="noreferrer" href="http://localhost:8081/h2-console">Databaseconsole</a></td>
                     </tr>
                     <tr>
                         <td>sa</td>
