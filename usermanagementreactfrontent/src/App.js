@@ -48,11 +48,17 @@ function App() {
     const systemStatusComponentRef = useRef();
 
     const [isLoggedIn, setIsLoggedIn] = useState(authenticationService.isLoggedIn());
+    const [intervalID, setIntervalID] = useState(null);
 
     const userProfile = () => userComponentRef.current.userProfile();
     const changePassword = () => userComponentRef.current.changePassword();
 
     const updateSystemStatusComponent = () => systemStatusComponentRef.current.reloadData(false);
+
+    function logout(isLoggedIn) {
+        clearInterval(intervalID);
+        setIsLoggedIn(isLoggedIn);
+    }
 
     return (
         <Router>
@@ -61,7 +67,7 @@ function App() {
                     <TypoGraphy variant="h4" className={classes.h4}>
                         User Management Portal
                     </TypoGraphy>
-                    <Systemstatus ref={systemStatusComponentRef} classes={classes}/>
+                    <Systemstatus ref={systemStatusComponentRef} classes={classes} setIntervalID={setIntervalID} intervalID={intervalID}/>
                     {canCreate && <IconButton
                         edge="start"
                         className={classes.button}
@@ -85,7 +91,7 @@ function App() {
                         <RefreshIcon/>
                     </IconButton>
                     }
-                    <UserActions isLoggedIn={isLoggedIn} logOutAction={setIsLoggedIn} profileAction={userProfile} changePasswordAction={changePassword}/>
+                    <UserActions isLoggedIn={isLoggedIn} logOutAction={logout} profileAction={userProfile} changePasswordAction={changePassword}/>
                 </Toolbar>
             </AppBar>
             <Switch>

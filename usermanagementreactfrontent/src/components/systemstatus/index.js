@@ -8,8 +8,7 @@ const INITIAL_STATE = {
     dbStatus: 'DOWN',
     systemHealth: {},
     systemCpu: 0,
-    timestamp: 0,
-    intervalID: null
+    timestamp: 0
 };
 
 class Systemstatus extends React.Component {
@@ -17,16 +16,14 @@ class Systemstatus extends React.Component {
     state = INITIAL_STATE
 
     componentDidMount() {
-        if(this.state.intervalID) {
-            clearInterval(this.state.intervalID);
+        if(this.props.intervalID) {
+            clearInterval(this.props.intervalID);
         }
         this.reloadData(true);
     }
 
     componentWillUnmount() {
-        if(this.state.intervalID) {
-            clearInterval(this.state.intervalID);
-        }
+        clearInterval(this.props.intervalID);
     }
 
     updateTime = () => {
@@ -42,7 +39,7 @@ class Systemstatus extends React.Component {
         this.setState({systemStatus, dbStatus, diskSpace, timestamp, systemCpu});
         if(updateTime) {
             const intervalID = this.updateTime();
-            this.setState({intervalID});
+            this.props.setIntervalID(intervalID);
         }
     }
 
