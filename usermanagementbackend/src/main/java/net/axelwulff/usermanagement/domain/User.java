@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.AUTO;
-import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
 public class User extends BaseDomainObject {
@@ -34,9 +33,13 @@ public class User extends BaseDomainObject {
     @Pattern(regexp = "[a-zA-Z0-9]{7,}")
     private String username;
 
+    private String oldUsername;
+
     @Column(nullable = false)
     @NotEmpty
     private String password;
+
+    private String newPassword;
 
     @Column(nullable = false, unique = true)
     @Email
@@ -61,26 +64,6 @@ public class User extends BaseDomainObject {
     private boolean isActive;
 
     private boolean isNotLocked;
-
-    public User() {
-    }
-
-    public User(Long id, String firstName, String middleName, String lastName, String username, String password, String email, String phone, LocalDateTime lastLoginDate, LocalDateTime lastLoginDateDisplay, LocalDate joinDate, Role role, boolean isActive, boolean isNotLocked) {
-        this.id = id;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.phone = phone;
-        this.lastLoginDate = lastLoginDate;
-        this.lastLoginDateDisplay = lastLoginDateDisplay;
-        this.joinDate = joinDate;
-        this.role = role;
-        this.isActive = isActive;
-        this.isNotLocked = isNotLocked;
-    }
 
     public Long getId() {
         return id;
@@ -122,12 +105,28 @@ public class User extends BaseDomainObject {
         this.username = username;
     }
 
+    public String getOldUsername() {
+        return oldUsername;
+    }
+
+    public void setOldUsername(String oldUsername) {
+        this.oldUsername = oldUsername;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
     public String getEmail() {

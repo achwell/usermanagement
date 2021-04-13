@@ -81,7 +81,7 @@ public class UserResource extends ExceptionHandling {
 
     @PutMapping
     public ResponseEntity<User> update(@Valid @RequestBody User user) throws UserNotFoundException, UsernameExistException, EmailExistException {
-        User updatedUser = userService.updateUser(user.getUsername(), user);
+        User updatedUser = userService.updateUser(user.getOldUsername(), user);
         return new ResponseEntity<>(updatedUser, OK);
     }
 

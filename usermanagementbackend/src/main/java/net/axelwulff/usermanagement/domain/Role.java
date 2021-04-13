@@ -23,15 +23,6 @@ public class Role extends BaseDomainObject {
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private Collection<Authority> authorities;
 
-    public Role() {
-    }
-
-    public Role(Long id, String name, Collection<Authority> authorities) {
-        this.id = id;
-        this.name = name;
-        this.authorities = authorities;
-    }
-
     public Long getId() {
         return id;
     }

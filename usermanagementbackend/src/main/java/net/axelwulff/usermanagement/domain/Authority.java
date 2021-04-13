@@ -17,14 +17,6 @@ public class Authority extends BaseDomainObject {
     @Column(unique = true, nullable = false)
     private String name;
 
-    public Authority() {
-    }
-
-    public Authority(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
     public Long getId() {
         return id;
     }

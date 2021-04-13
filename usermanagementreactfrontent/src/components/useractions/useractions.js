@@ -28,7 +28,7 @@ function UserActions(props) {
 
     const history = useHistory();
 
-    const {logOutAction, profileAction} = props;
+    const {logOutAction, profileAction, changePasswordAction} = props;
 
     const doLogout = () => {
         authenticationService.logout();
@@ -45,6 +45,11 @@ function UserActions(props) {
         setAnchorEl(null);
         profileAction();
     };
+
+    const doChangePasswordAction = () => {
+        setAnchorEl(null);
+        changePasswordAction();
+    }
 
     if(!isLoggedIn) {
         return <Button variant="outlined" color="primary" onClick={doLogin}>Log in</Button>;
@@ -63,6 +68,7 @@ function UserActions(props) {
                 onClose={handleClose}
             >
                 <MenuItem onClick={doProfileAction}>My account</MenuItem>
+                <MenuItem onClick={doChangePasswordAction}>Change password</MenuItem>
                 <MenuItem onClick={doLogout}>Log Out</MenuItem>
             </Menu>
         </div>
@@ -72,7 +78,8 @@ function UserActions(props) {
 UserActions.propTypes = {
     isLoggedIn: PropTypes.bool.isRequired,
     logOutAction: PropTypes.func.isRequired,
-    profileAction: PropTypes.func.isRequired
+    profileAction: PropTypes.func.isRequired,
+    changePasswordAction: PropTypes.func.isRequired
 }
 
 export default UserActions;

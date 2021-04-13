@@ -3,7 +3,6 @@ package net.axelwulff.usermanagement.service;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import net.axelwulff.usermanagement.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,12 +22,12 @@ public class LoginAttemptService {
     private static final int DURATION = 15;
     private static final TimeUnit UNIT = MINUTES;
 
-    private LoadingCache<String, Integer> loginAttemptCache;
+    private final LoadingCache<String, Integer> loginAttemptCache;
 
     public LoginAttemptService() {
         super();
         loginAttemptCache = CacheBuilder.newBuilder().expireAfterWrite(DURATION, UNIT)
-                .maximumSize(100).build(new CacheLoader<String, Integer>() {
+                .maximumSize(100).build(new CacheLoader<>() {
                     public Integer load(String key) {
                         return 0;
                     }

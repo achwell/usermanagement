@@ -4084,6 +4084,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bcryptjs@npm:^2.4.3":
+  version: 2.4.3
+  resolution: "bcryptjs@npm:2.4.3"
+  checksum: 5a320711757b5932da200856a5193cad0123df7c43b46417172eabf2aa436a8f08f64851722052fea6335453f96290005b6694a7dd26d8951810362de343175c
+  languageName: node
+  linkType: hard
+
 "bfj@npm:^7.0.2":
   version: 7.0.2
   resolution: "bfj@npm:7.0.2"
@@ -5634,10 +5641,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.20.2":
-  version: 2.20.2
-  resolution: "date-fns@npm:2.20.2"
-  checksum: f1e64c4edbd607591d97c56ac8aa2a26a3acb362614234091810f7f7d5685349e7610dfdc6d199903548a6acec3a13ace76b99efafe0f9e24ca95f5070da083f
+"date-fns@npm:^2.20.3":
+  version: 2.20.3
+  resolution: "date-fns@npm:2.20.3"
+  checksum: 308e3e3bbc40ad2f15f3babecc3a89fa77beea779e0077ed9db7f928a425fa6548f167c6d69b857b4adb96ab6d521f917a8089b89ed0d9b5f3612749a9fdbce4
   languageName: node
   linkType: hard
 
@@ -15752,7 +15759,8 @@ resolve@^2.0.0-next.3:
     axios: ^0.21.1
     axios-auth-refresh: ^3.1.0
     babel-eslint: ^10.1.0
-    date-fns: ^2.20.2
+    bcryptjs: ^2.4.3
+    date-fns: ^2.20.3
     eslint: ^7.24.0
     eslint-config-react-app: ^6.0.0
     eslint-plugin-flowtype: ^5.7.0

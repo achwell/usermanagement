@@ -114,7 +114,7 @@ class RegisterComponent extends Component {
                     const jsonObject = JSON.parse(e.response.data.message);
                     let {formErrors, fieldErrors} = this.state;
                     Object.keys(jsonObject).forEach(function(key) {
-                        var value = jsonObject[key];
+                        const value = jsonObject[key];
                         fieldErrors[key] = true;
                         formErrors[key] = value;
                     });

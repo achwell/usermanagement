@@ -28,8 +28,7 @@ import java.util.Objects;
 import static java.time.LocalDateTime.now;
 import static net.axelwulff.usermanagement.constant.UserImplConstant.*;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.*;
 
 @Service
 @Transactional
@@ -76,8 +75,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setFirstName(firstName);
         user.setMiddleName(middleName);
         user.setLastName(lastName);
-        user.setUsername(username);
-        user.setEmail(email);
+        user.setUsername(lowerCase(username));
+        user.setEmail(lowerCase(email));
         user.setPhone(phone);
         user.setJoinDate(LocalDate.now());
         user.setPassword(encodePassword(password));
@@ -108,10 +107,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User addNewUser(User user) throws UserNotFoundException, EmailExistException, UsernameExistException {
+        user.setUsername(lowerCase(user.getUsername()));
+        user.setEmail(lowerCase(user.getEmail()));
         validateUsernameAndEmail(EMPTY, user.getUsername(), user.getEmail());
         String password = generatePassword();
         user.setPassword(encodePassword(password));
         user.setJoinDate(LocalDate.now());
+        user.setUsername(lowerCase(user.getUsername()));
+        user.setEmail(lowerCase(user.getEmail()));
         userRepository.save(user);
         emailService.sendNewPasswordEmail(user.getFirstName(), password, user.getEmail());
         LOGGER.info("New user password: " + password);
@@ -122,6 +125,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User updateUser(String currentUsername, User user) throws UsernameExistException, EmailExistException, UserNotFoundException {
         if (user == null) {
             return null;
+        }
+        user.setUsername(lowerCase(user.getUsername()));
+        user.setEmail(lowerCase(user.getEmail()));
+        if (isNotBlank(user.getNewPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getNewPassword()));
+            user.setNewPassword(null);
         }
         validateUsernameAndEmail(currentUsername, user.getUsername(), user.getEmail());
         userRepository.save(user);

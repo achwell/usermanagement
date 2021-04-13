@@ -8,7 +8,8 @@ const userService = {
     addUser: (user) => {
         return usermanagerapi.post('/user', user);
     },
-    updateUser: (user) => {
+    updateUser: (username, user) => {
+        user.oldUsername = username;
         return usermanagerapi.put('/user', user);
     },
     resetPassword: (email) => {

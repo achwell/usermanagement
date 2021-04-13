@@ -5,6 +5,7 @@ import authenticationService from "../../service/autehentication.service";
 import userService from "../../service/user.service";
 import {Modal} from "../modal/modal";
 import UserForm from "./userform";
+import ChangePasswordForm from "./changepasswordform";
 import Usertable from "./userTable";
 import roleService from "../../service/role.service";
 
@@ -18,6 +19,9 @@ const UserComponent = forwardRef((props, ref) => {
             userProfile() {
                 initUserProfile();
             },
+            changePassword() {
+                initChangePassword();
+            },
             reload() {
                 reloadUsersAndRoles();
             }
@@ -27,6 +31,7 @@ const UserComponent = forwardRef((props, ref) => {
     const [users, setUsers] = useState(userService.getUsersFromLocalCache());
     const [validationErrors, setValidationErrors] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
+    const [changePasswordOpen, setChangePasswordOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
     const [selectedUsername, setSelectedUsername] = useState(null);
     const [selectedName, setSelectedName] = useState(null);
@@ -48,6 +53,7 @@ const UserComponent = forwardRef((props, ref) => {
     }
 
     const userFormRef = useRef();
+    const changePasswordFormRef = useRef();
 
     const username = authenticationService.getUsername();
 
@@ -116,6 +122,13 @@ const UserComponent = forwardRef((props, ref) => {
         setEditOpen(true);
     }
 
+    const initChangePassword = () => {
+        const user = authenticationService.getUserFromLocalCache();
+        setSelectedUser(user);
+        setSelectedUsername(user.username);
+        setChangePasswordOpen(true);
+    }
+
     const initDeleteUser = user => {
         if (canDelete) {
             const selectedName = getFullName(user);
@@ -133,7 +146,7 @@ const UserComponent = forwardRef((props, ref) => {
     }
 
     const doUpdateUser = (user) => {
-        userService.updateUser(user)
+        userService.updateUser(selectedUsername, user)
             .then(response => {
                 //If edit profile
                 if(user.username === authenticationService.getUsername()) {
@@ -144,7 +157,13 @@ const UserComponent = forwardRef((props, ref) => {
             .catch(e => handleError(e, () => {
                 setDeleteOpen(false);
                 setEditOpen(false);
+                setChangePasswordOpen(false);
             }));
+    }
+
+    const doChangePassword = newPassword => {
+        const user = {...selectedUser, newPassword}
+        doUpdateUser(user);
     }
 
     const doDeleteUser = () => {
@@ -153,6 +172,7 @@ const UserComponent = forwardRef((props, ref) => {
             .catch(e => handleError(e, () => {
                 setDeleteOpen(false);
                 setEditOpen(false);
+                setChangePasswordOpen(false);
             }));
     }
 
@@ -169,6 +189,7 @@ const UserComponent = forwardRef((props, ref) => {
         props.enqueueSnackbar("User " + selectedName + " " + action + ".", {variant: 'success'});
         setDeleteOpen(false);
         setEditOpen(false);
+        setChangePasswordOpen(false);
         setSelectedUser(null);
         setSelectedName(null);
         setSelectedUsername(null);
@@ -184,6 +205,7 @@ const UserComponent = forwardRef((props, ref) => {
         }
         setDeleteOpen(false);
         setEditOpen(false);
+        setChangePasswordOpen(false);
         setSelectedUser(null);
         setSelectedName(null);
         setSelectedUsername(null);
@@ -226,6 +248,14 @@ const UserComponent = forwardRef((props, ref) => {
                           setValidationErrors={setValidationErrors}
                           currentUserId={authenticationService.getUserFromLocalCache().id}
                 />
+            </Modal>
+            <Modal isOpen={changePasswordOpen}
+                   handleClose={() => setChangePasswordOpen(false)}
+                   title="Change Password"
+                   handleSubmit={() => changePasswordFormRef.current.save()}
+                   submitTitle={"Change Password"}
+                   submitReadOnly={!validationErrors}>
+                <ChangePasswordForm ref={changePasswordFormRef} existingPassword={selectedUser ? selectedUser.password : ''} onSubmit={doChangePassword} setValidationErrors={setValidationErrors} />
             </Modal>
         </Fragment>
     )

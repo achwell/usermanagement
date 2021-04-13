@@ -10,7 +10,7 @@ const authenticationService = {
     login: (body) => {
         return usermanagerapi.post('/user/login', body);
     },
-    refreshToken: (body) => {
+    refreshToken: () => {
         return usermanagerapi.get('/token/refresh');
     },
     logout: () => {

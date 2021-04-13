@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function App(props) {
+function App() {
 
     const classes = useStyles();
     const canCreate = authenticationService.hasAuthority("user:create");
@@ -50,6 +50,8 @@ function App(props) {
     const [isLoggedIn, setIsLoggedIn] = useState(authenticationService.isLoggedIn());
 
     const userProfile = () => userComponentRef.current.userProfile();
+    const changePassword = () => userComponentRef.current.changePassword();
+
     const updateSystemStatusComponent = () => systemStatusComponentRef.current.reloadData(false);
 
     return (
@@ -83,7 +85,7 @@ function App(props) {
                         <RefreshIcon/>
                     </IconButton>
                     }
-                    <UserActions isLoggedIn={isLoggedIn} logOutAction={setIsLoggedIn} profileAction={userProfile}/>
+                    <UserActions isLoggedIn={isLoggedIn} logOutAction={setIsLoggedIn} profileAction={userProfile} changePasswordAction={changePassword}/>
                 </Toolbar>
             </AppBar>
             <Switch>

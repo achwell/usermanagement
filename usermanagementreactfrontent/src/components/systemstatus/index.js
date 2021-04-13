@@ -47,15 +47,14 @@ class Systemstatus extends React.Component {
     }
 
     getSystemHealth = async () => {
-        let {systemStatus, dbStatus, diskSpace} = INITIAL_STATE;
         const response = await actuatorService.getSystemHealth().catch();
         const systemHealth = response.data;
         const dbComponent = systemHealth.components.db;
         const diskSpaceComponent = systemHealth.components.diskSpace;
 
-        systemStatus = systemHealth.status;
-        dbStatus = `${dbComponent.details.database} - ${dbComponent.status}`;
-        diskSpace = diskSpaceComponent.details.free;
+        const systemStatus = systemHealth.status;
+        const dbStatus = `${dbComponent.details.database} - ${dbComponent.status}`;
+        const diskSpace = diskSpaceComponent.details.free;
         return {systemStatus, dbStatus, diskSpace};
     }
 
