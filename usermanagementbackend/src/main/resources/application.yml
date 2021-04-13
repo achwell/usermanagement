@@ -1,0 +1,55 @@
+server:
+  port: 8081
+  error:
+    path: /error
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  trace:
+    http:
+      enabled: true
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: "jdbc:h2:mem:testdb"
+    username: sa
+    password: password
+    initialization-mode: embedded
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  devtools:
+    add-properties: true
+
+jwt:
+  secret: '[a-zA-Z0-9._]^+$Guidelines89797987forAlphabeticalArraNumeralsandOtherSymbo$'
+
+app:
+  corsallowedorigins:
+    - http://localhost:3000
+    - http://localhost:4200
+
+logging:
+  level:
+    web: debug
+
+info:
+  app:
+    name: User Manager Application
+    description: This is an application to manage users
+    version: 1.0
