@@ -10291,6 +10291,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"material-icons@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "material-icons@npm:0.6.1"
+  checksum: 0b26b8cbd3450b643da1bee215d6ae22030d81a2b75cd21ff1ad54e376e96559d1e07d3f4c82b3cd1ecfc466d16230dd68c95b299330a12a74287f2aa0f4248c
+  languageName: node
+  linkType: hard
+
 "md5.js@npm:^1.3.4":
   version: 1.3.5
   resolution: "md5.js@npm:1.3.5"
@@ -15541,6 +15548,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"typeface-roboto@npm:^1.1.13":
+  version: 1.1.13
+  resolution: "typeface-roboto@npm:1.1.13"
+  checksum: d8f68902575211262605fb50147084b295d410f376314d1b4d55d08e4dbb74339a1817c82a7df051694b3e3663a9d0c0179b728101e8403d906b89735b0e97e0
+  languageName: node
+  linkType: hard
+
 "unbox-primitive@npm:^1.0.0":
   version: 1.0.1
   resolution: "unbox-primitive@npm:1.0.1"
@@ -15770,6 +15784,7 @@ resolve@^2.0.0-next.3:
     eslint-plugin-react-hooks: ^4.2.0
     jwt-decode: ^3.1.2
     lodash: ^4.17.21
+    material-icons: ^0.6.1
     node-sass: ^5.0.0
     notistack: ^1.0.5
     prop-types: ^15.7.2
@@ -15777,6 +15792,7 @@ resolve@^2.0.0-next.3:
     react-dom: ^17.0.2
     react-router-dom: ^5.2.0
     react-scripts: 4.0.3
+    typeface-roboto: ^1.1.13
     web-vitals: ^1.1.1
   languageName: unknown
   linkType: soft

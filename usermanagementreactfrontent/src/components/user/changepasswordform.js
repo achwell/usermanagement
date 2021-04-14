@@ -43,7 +43,7 @@ class ChangePasswordForm extends Component {
         switch (fieldName) {
             case 'oldPassword':
                 oldPasswordValid = this.verifyPasswords(value, existingPassword);
-                formErrors.oldPassword = oldPasswordValid ? '' : ' does not match old password';
+                formErrors.oldPassword = oldPasswordValid ? '' : ' does not match existing password';
                 fieldErrors.oldPassword = !oldPasswordValid;
                 break;
             case 'newPassword':
