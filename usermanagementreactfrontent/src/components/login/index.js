@@ -106,7 +106,7 @@ class LoginComponent extends Component {
                         <tr>
                             <td>adminauthorities</td>
                             <td>password</td>
-                            <td>ROLE_ADMIN_AUTHORITIES</td>
+                            <td>ADMIN_AUTHORITIES</td>
                             <td>user:read, user:update, user:create, user:seelogintime, system:status</td>
                         </tr>
                         <tr>
