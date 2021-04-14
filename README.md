@@ -5,7 +5,7 @@
 | -------- | -------- | ---- | ----------- |
 | roleuser | password | USER | user:read |
 | managerauthorities | password | MANAGER_AUTHORITIES | user:read, user:update |
-| adminauthorities | password | ROLE_ADMIN_AUTHORITIES | user:read, user:update, user:create, user:seelogintime, system:status |
+| adminauthorities | password | ADMIN_AUTHORITIES | user:read, user:update, user:create, user:seelogintime, system:status |
 | superadminauthorities | password | SUPER_ADMIN_AUTHORITIES | user:read, user:update, user:create, user:delete, user:seelogintime, system:status |
 
 # Authorities
