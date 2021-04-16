@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from "react-router-dom";
 import authenticationService from "../../service/autehentication.service";
-import {Button, Input, InputLabel} from "@material-ui/core";
-import FormControl from '@material-ui/core/FormControl';
+import {Button} from "@material-ui/core";
 import {withSnackbar} from "notistack";
-import {FormErrors} from "../formerrors";
+import {Textinput} from "../form/input/textinput";
+import {Formcomponent} from "../form";
 
 const INITIAL_STATE = {
     user: {
@@ -127,57 +127,33 @@ class RegisterComponent extends Component {
         if (authenticationService.isLoggedIn()) {
             this.props.history.push("/user/management");
         }
+        const {formErrors, fieldErrors, user} = this.state;
         return (
-            <div style={{display: "flex", justifyContent: "center", margin: 0, padding: 0}}>
-                <form style={{width: "100%"}} autoComplete="off">
-                    <FormErrors formErrors={this.state.formErrors}/>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="username">Username</InputLabel>
-                        <Input id="username" name="username" required
-                               value={this.state.user.username}
-                               onChange={this.handleInputChange}
-                               autoComplete="off"/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="firstName">First name</InputLabel>
-                        <Input id="firstName" name="firstName" type="text" required
-                               value={this.state.user.firstName}
-                               onChange={this.handleInputChange}
-                               autoComplete="off"/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="middleName">Middle name</InputLabel>
-                        <Input id="middleName" name="middleName" type="text"
-                               value={this.state.user.middleName} onChange={this.handleInputChange}
-                               autoComplete="off"/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="lastName">Last name</InputLabel>
-                        <Input id="lastName" name="lastName" type="text" required
-                               value={this.state.user.lastName}
-                               onChange={this.handleInputChange}
-                               autoComplete="off"/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="email">Email</InputLabel>
-                        <Input id="email" name="email" type="email" required value={this.state.user.email}
-                               onChange={this.handleInputChange}
-                               autoComplete="off"/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="phone">Phone</InputLabel>
-                        <Input id="phone" name="phone" type="text" required value={this.state.user.phone}
-                               onChange={this.handleInputChange}
-                               autoComplete="off"/>
-                    </FormControl>
-                    <Button variant="outlined" color="primary" onClick={this.registerClicked}
-                            disabled={!this.state.formValid}>Register</Button>
-                    <div className="group">
-                        Already have an account?
-                        <Link to="/login">Log In</Link>
-                    </div>
-                </form>
-            </div>
+            <Formcomponent formErrors={formErrors}>
+                <Textinput id="username" label="Username" value={user.username} required
+                           onChange={this.handleInputChange}
+                           hasError={fieldErrors.username} errorMessage={formErrors.username}/>
+                <Textinput id="firstName" label="First name" value={user.firstName} required
+                           onChange={this.handleInputChange}
+                           hasError={fieldErrors.firstName} errorMessage={formErrors.firstName}/>
+                <Textinput id="middleName" label="Middle name" value={user.middleName}
+                           onChange={this.handleInputChange}/>
+                <Textinput id="lastName" label="Last name" value={user.lastName} required
+                           onChange={this.handleInputChange}
+                           hasError={fieldErrors.lastName} errorMessage={formErrors.lastName}/>
+                <Textinput id="email" type="email" label="Email" value={user.email} required
+                           onChange={this.handleInputChange}
+                           hasError={fieldErrors.email} errorMessage={formErrors.email}/>
+                <Textinput id="phone" label="Phone" value={user.phone} required
+                           onChange={this.handleInputChange}
+                           hasError={fieldErrors.phone} errorMessage={formErrors.phone}/>
+                <Button variant="outlined" color="primary" onClick={this.registerClicked}
+                        disabled={!this.state.formValid}>Register</Button>
+                <div className="group">
+                    Already have an account?
+                    <Link to="/login">Log In</Link>
+                </div>
+            </Formcomponent>
         );
     }
 }

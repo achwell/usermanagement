@@ -62,7 +62,7 @@ const authenticationService = {
             return false;
         }
         const role = user.role;
-        if (!role) {
+        if (!role || !role.authorities) {
             return false;
         }
         let hasAuthority = false;

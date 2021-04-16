@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import bcrypt from 'bcryptjs';
 import PropTypes from 'prop-types';
-import FormControl from "@material-ui/core/FormControl";
-import {Input, InputLabel} from "@material-ui/core";
-import {FormErrors} from "../formerrors";
+import {Textinput} from "../form/input/textinput";
+import {Formcomponent} from "../form";
 
 class ChangePasswordForm extends Component {
 
@@ -103,35 +102,14 @@ class ChangePasswordForm extends Component {
     render() {
         const {oldPassword, newPassword, verifyNewPassword, formErrors} = this.state;
         return (
-            <div style={{display: "flex", justifyContent: "center", margin: 0, padding: 0}}>
-                <form style={{width: "100%"}} autoComplete="off">
-                    <FormErrors formErrors={formErrors}/>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="oldPassword">Old password</InputLabel>
-                        <Input id="oldPassword"
-                               name="oldPassword"
-                               type="password" required
-                               value={oldPassword}
-                               onChange={this.handleInputChange}/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="newPassword">New password</InputLabel>
-                        <Input id="newPassword"
-                               name="newPassword"
-                               type="password" required
-                               value={newPassword}
-                               onChange={this.handleInputChange}/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="verifyNewPassword">Verify new password</InputLabel>
-                        <Input id="verifyNewPassword"
-                               name="verifyNewPassword"
-                               type="password" required
-                               value={verifyNewPassword}
-                               onChange={this.handleInputChange}/>
-                    </FormControl>
-                </form>
-            </div>
+            <Formcomponent formErrors={formErrors}>
+                <Textinput id="oldPassword" type="password" label="Old password" value={oldPassword} required
+                           onChange={this.handleInputChange}/>
+                <Textinput id="newPassword" type="password" label="New password" value={newPassword} required
+                           onChange={this.handleInputChange}/>
+                <Textinput id="verifyNewPassword" type="password" label="Verify new password" value={verifyNewPassword}
+                           required onChange={this.handleInputChange}/>
+            </Formcomponent>
         );
     }
 }

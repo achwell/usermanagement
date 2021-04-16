@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import {Checkbox, Input, InputLabel} from "@material-ui/core";
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
 import {withSnackbar} from "notistack";
 import roleService from "../../service/role.service";
-import {FormErrors} from "../formerrors";
+import {Textinput} from "../form/input/textinput";
+import {Checkboxinput} from "../form/input/checkboxinput";
+import {Selectinput} from "../form/input/selectinput";
+import {Formcomponent} from "../form";
 
 
 class UserForm extends Component {
@@ -20,23 +20,24 @@ class UserForm extends Component {
         formValid: false
     }
 
-    componentDidMount() {
-        this.validateField('username', this.state.user.username);
-        this.validateField('firstName', this.state.user.firstName);
-        this.validateField('lastName', this.state.user.lastName);
-        this.validateField('email', this.state.user.email);
-        this.validateField('phone', this.state.user.phone);
-    }
-
-    isUpdate = () => !!this.state.user.id;
     isEditProfile = () => this.props.currentUserId === this.state.user.id
+
+    componentDidMount() {
+        if (this.state.user.id) {
+            this.validateField('username', this.state.user.username);
+            this.validateField('firstName', this.state.user.firstName);
+            this.validateField('lastName', this.state.user.lastName);
+            this.validateField('email', this.state.user.email);
+            this.validateField('phone', this.state.user.phone);
+        }
+    }
 
     handleInputChange = e => {
         if (!this.props.readOnly) {
             const name = e.target.name;
             const value = e.target.value;
             this.setState({user: {...this.state.user, [name]: value}});
-            this.validateField(name, value)
+            this.validateField(name, value, e)
         }
     }
     handleCheckboxChange = e => {
@@ -44,7 +45,7 @@ class UserForm extends Component {
             const name = e.target.name;
             const checked = e.target.checked;
             this.setState({user: {...this.state.user, [name]: checked}});
-            this.validateField(name, checked);
+            this.validateField(name, checked, e);
         }
     }
     handleRoleInputChange = e => {
@@ -53,12 +54,12 @@ class UserForm extends Component {
             const roleId = e.target.value;
             const role = this.state.roles.filter(role => role.id === roleId)[0];
             this.setState({user: {...this.state.user, role, roleId}});
-            this.validateField(name, roleId)
+            this.validateField(name, roleId, e)
         }
 
     }
 
-    validateField(fieldName, value) {
+    validateField(fieldName, value, e) {
         const {formErrors, fieldErrors} = this.state;
 
         let usernameValid = !fieldErrors.username;
@@ -74,26 +75,41 @@ class UserForm extends Component {
                 usernameValid = value.match(/^[a-z0-9]{7,}$/i);
                 formErrors.username = usernameValid ? '' : (value && value.length > 6) ? ' contains illegal characters' : ' is too short';
                 fieldErrors.username = !usernameValid;
+                if (e) {
+                    usernameValid ? e.target.classList.remove('error') : e.target.classList.add('error');
+                }
                 break;
             case 'firstName':
                 firstNameValid = value.length >= 1;
-                formErrors.firstName = firstNameValid ? '' : ' is too short';
+                formErrors.firstName = firstNameValid ? '' : ' is required';
                 fieldErrors.firstName = !firstNameValid;
+                if (e) {
+                    firstNameValid ? e.target.classList.remove('error') : e.target.classList.add('error');
+                }
                 break;
             case 'lastName':
                 lastNameValid = value.length >= 1;
-                formErrors.lastName = lastNameValid ? '' : ' is too short';
+                formErrors.lastName = lastNameValid ? '' : ' is required';
                 fieldErrors.lastName = !lastNameValid;
+                if (e) {
+                    lastNameValid ? e.target.classList.remove('error') : e.target.classList.add('error');
+                }
                 break;
             case 'email':
                 emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
                 formErrors.email = emailValid ? '' : ' is invalid';
                 fieldErrors.email = !emailValid;
+                if (e) {
+                    emailValid ? e.target.classList.remove('error') : e.target.classList.add('error');
+                }
                 break;
             case 'phone':
                 phoneValid = value.length >= 8;
                 formErrors.phone = phoneValid ? '' : ' is too short';
                 fieldErrors.phone = !phoneValid;
+                if (e) {
+                    phoneValid ? e.target.classList.remove('error') : e.target.classList.add('error');
+                }
                 break;
             default:
                 fieldValidated = false;
@@ -125,71 +141,37 @@ class UserForm extends Component {
 
     render() {
         const {readOnly} = this.props;
-        const {user, formErrors} = this.state;
+        const {user, formErrors, fieldErrors} = this.state;
+
+        if (!user) {
+            return null;
+        }
         return (
-            <div style={{display: "flex", justifyContent: "center", margin: 0, padding: 0}}>
-                <form style={{width: "100%"}} autoComplete="off">
-                    <FormErrors formErrors={formErrors}/>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="username">Username</InputLabel>
-                        <Input id="username" name="username"
-                               readOnly={readOnly || this.isUpdate()} type="text" required
-                               value={user.username}
-                               onChange={this.handleInputChange}/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="firstName">First name</InputLabel>
-                        <Input id="firstName" name="firstName" readOnly={readOnly} type="text" required
-                               value={user.firstName}
-                               onChange={this.handleInputChange}/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="middleName">Middle name</InputLabel>
-                        <Input id="middleName" name="middleName" readOnly={readOnly} type="text"
-                               value={user.middleName} onChange={this.handleInputChange}/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="lastName">Last name</InputLabel>
-                        <Input id="lastName" name="lastName" readOnly={readOnly} type="text" required
-                               value={user.lastName}
-                               onChange={this.handleInputChange}/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="email">Email</InputLabel>
-                        <Input id="email" name="email" readOnly={readOnly} type="email" required value={user.email}
-                               onChange={this.handleInputChange}/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="phone">Phone</InputLabel>
-                        <Input id="phone" name="phone" readOnly={readOnly} type="text" required value={user.phone}
-                               onChange={this.handleInputChange}/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="active">Active</InputLabel>
-                        <Checkbox id="active" name="active" readOnly={readOnly || this.isEditProfile()}
-                                  checked={user.active} onChange={this.handleCheckboxChange}/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="notLocked">Not Locked</InputLabel>
-                        <Checkbox id="notLocked" name="notLocked" readOnly={readOnly || this.isEditProfile()}
-                                  checked={user.notLocked} onChange={this.handleCheckboxChange}/>
-                    </FormControl>
-                    <FormControl margin="normal" fullWidth>
-                        <InputLabel id="role-label">Role</InputLabel>
-                        <Select
-                            labelId="role-label"
-                            id="role"
-                            name="role"
-                            readOnly={readOnly || this.isEditProfile()}
-                            value={user.roleId}
-                            onChange={this.handleRoleInputChange}
-                            autoWidth
-                        >
-                            {this.getRoles()}
-                        </Select>
-                    </FormControl>
-                </form>
-            </div>
+            <Formcomponent formErrors={formErrors}>
+                <Textinput id="username" label="Username" value={user.username} required
+                           readOnly={readOnly || !!this.state.user.id} onChange={this.handleInputChange}
+                           hasError={fieldErrors.username} errorMessage={formErrors.username}/>
+                <Textinput id="firstName" label="First name" value={user.firstName} required readOnly={readOnly}
+                           onChange={this.handleInputChange} hasError={fieldErrors.firstName}
+                           errorMessage={formErrors.firstName}/>
+                <Textinput id="middleName" label="Middle name" value={user.middleName} readOnly={readOnly}
+                           onChange={this.handleInputChange} hasError={false}/>
+                <Textinput id="lastName" label="Last name" value={user.lastName} required readOnly={readOnly}
+                           onChange={this.handleInputChange} hasError={fieldErrors.lastName}
+                           errorMessage={formErrors.lastName}/>
+                <Textinput id="email" type="email" label="Email" value={user.email} required readOnly={readOnly}
+                           onChange={this.handleInputChange} hasError={fieldErrors.email}
+                           errorMessage={formErrors.email}/>
+                <Textinput id="phone" label="Phone" value={user.phone} required readOnly={readOnly}
+                           onChange={this.handleInputChange} hasError={fieldErrors.phone}
+                           errorMessage={formErrors.phone}/>
+                <Checkboxinput id="active" label="Active" checked={user.active}
+                               readOnly={readOnly || this.isEditProfile()} onChange={this.handleCheckboxChange}/>
+                <Checkboxinput id="notLocked" label="Not Locked" checked={user.notLocked}
+                               readOnly={readOnly || this.isEditProfile()} onChange={this.handleCheckboxChange}/>
+                <Selectinput id="role" label="Role" value={user.roleId} options={this.getRoles()}
+                             readOnly={readOnly || this.isEditProfile()} onChange={this.handleRoleInputChange}/>
+            </Formcomponent>
         );
     }
 }

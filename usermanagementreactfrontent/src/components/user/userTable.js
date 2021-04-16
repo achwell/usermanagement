@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { format } from 'date-fns'
+import {format} from 'date-fns'
 
 import {DataGrid} from "@material-ui/data-grid";
 
@@ -48,22 +48,24 @@ function Usertable(props) {
     };
 
     const columns = [
-        {field: 'username', headerName: 'Username', width: 100},
-        {field: 'firstName', headerName: 'First name', width: 150},
-        {field: 'middleName', headerName: 'Middle name', width: 150},
-        {field: 'lastName', headerName: 'Last name', width: 150},
-        {field: 'email', headerName: 'Email', width: 175},
-        {field: 'phone', headerName: 'Phone', width: 100},
-        {field: 'role', headerName: 'Role', width: 200, renderCell: params => renderRoleCell(params)},
+        {field: 'username', headerName: 'Username', flex: 1,},
+        {field: 'firstName', headerName: 'First name', flex: 1.5,},
+        {field: 'middleName', headerName: 'Middle name', flex: 1,},
+        {field: 'lastName', headerName: 'Last name', flex: 1.5,},
+        {field: 'email', headerName: 'Email', flex: 1,},
+        {field: 'phone', headerName: 'Phone', flex: 1,},
+        {field: 'role', headerName: 'Role', flex: 1.5, renderCell: params => renderRoleCell(params)},
         props.canSeeLogintime && {
             field: 'joinDate',
             headerName: 'Join date',
+            flex: 1,
             renderCell: params => renderDateCell(params)
 
         },
         props.canSeeLogintime && {
             field: 'lastLoginDate',
             headerName: 'Last login date',
+            flex: 1,
             renderCell: params => renderDateCell(params)
         },
         {
@@ -71,6 +73,7 @@ function Usertable(props) {
             headerName: 'Status',
             filterable: false,
             sortable: false,
+            flex: 1,
             renderCell: params => renderStatusCell(params)
         },
         (props.canUpdate || props.canDelete) &&
@@ -79,7 +82,7 @@ function Usertable(props) {
             sortable: false,
             filterable: false,
             headerName: "Actions",
-            width: 120,
+            flex: 1,
             disableClickEventBubbling: true,
             renderCell: params => renderActionsCell(params)
         },
@@ -87,8 +90,7 @@ function Usertable(props) {
 
     return (
         <div style={{height: '90vh', width: '100%'}}>
-            <DataGrid rows={props.rows} columns={columns} pageSize={25} size="small"
-                      allowColumnResizing={true} selection={{mode: 'single'}}/>
+            <DataGrid rows={props.rows} columns={columns} pageSize={25} size="small"/>
         </div>
     );
 }

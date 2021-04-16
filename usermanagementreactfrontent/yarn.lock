@@ -1935,17 +1935,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/data-grid@npm:^4.0.0-alpha.24":
-  version: 4.0.0-alpha.24
-  resolution: "@material-ui/data-grid@npm:4.0.0-alpha.24"
+"@material-ui/data-grid@npm:^4.0.0-alpha.25":
+  version: 4.0.0-alpha.25
+  resolution: "@material-ui/data-grid@npm:4.0.0-alpha.25"
   dependencies:
     "@material-ui/utils": ^5.0.0-alpha.14
     prop-types: ^15.7.2
     reselect: ^4.0.0
   peerDependencies:
     "@material-ui/core": ^4.9.12 || ^5.0.0-alpha.22
-    react: ^16.8.0 || ^17.0.0
-  checksum: 3d51c047e818809ed2f4214813aaea2907a0637c0071c5150d4f6d0b3c2ed0616e21e7b3f5a9a5f6f04b001adcf6dfc3e5c6927ccd676ceb790d5fdff05b601e
+    react: ^17.0.0
+  checksum: 496e24cbb63c44796c83c683aa44ed6c7a52bfacd0bc280afcc1a694f043e8639d05e6e96c882e45073e7ec7ccd846114bdcbc61b0dabc6b8b9472ab50bc817f
   languageName: node
   linkType: hard
 
@@ -2054,6 +2054,36 @@ __metadata:
   peerDependencies:
     react: ^17.0.0
   checksum: 09bb5ab7386e74013f0c8a1de93b75125a27a163295f241337e76a94c6b25e4cd36857a89a40b0eeb6f644979173de30f587e0feb041a295666fcb8f1802fb6d
+  languageName: node
+  linkType: hard
+
+"@material-ui/x-grid@npm:^4.0.0-alpha.25":
+  version: 4.0.0-alpha.25
+  resolution: "@material-ui/x-grid@npm:4.0.0-alpha.25"
+  dependencies:
+    "@material-ui/utils": ^5.0.0-alpha.14
+    "@material-ui/x-license": ^4.0.0-alpha.25
+    prop-types: ^15.7.2
+    reselect: ^4.0.0
+  peerDependencies:
+    "@material-ui/core": ^4.9.12 || ^5.0.0-alpha.22
+    react: ^17.0.0
+  checksum: e92f23285a78caa689d8eb6d956573982800729d9bd3207031b63f33b8d5deb4edbb56dcee71b295d91d520145e67c4b95a185bf0f2d208ed78867e800259925
+  languageName: node
+  linkType: hard
+
+"@material-ui/x-license@npm:^4.0.0-alpha.25":
+  version: 4.0.0-alpha.25
+  resolution: "@material-ui/x-license@npm:4.0.0-alpha.25"
+  dependencies:
+    "@material-ui/utils": ^5.0.0-alpha.14
+    esm: ^3.2.25
+    yargs: ^16.2.0
+  peerDependencies:
+    react: ^17.0.0
+  bin:
+    licensegen: bin/license-gen-script.js
+  checksum: afcd8556f7516570dd77b11d552bbfc02e37aaa307118318547343a2861b130bd777c954f5987aac640c73f7de073fbee5b578f492adc1cfaeeaa13967f8eaa0
   languageName: node
   linkType: hard
 
@@ -2374,14 +2404,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^13.1.2":
-  version: 13.1.2
-  resolution: "@testing-library/user-event@npm:13.1.2"
+"@testing-library/user-event@npm:^13.1.3":
+  version: 13.1.3
+  resolution: "@testing-library/user-event@npm:13.1.3"
   dependencies:
     "@babel/runtime": ^7.12.5
   peerDependencies:
     "@testing-library/dom": ">=7.21.4"
-  checksum: 46c2324f575fb2a68772e0909c98c2eb453e74b42dac568f843e60654c9f956f54dcc61426b2818e6d61a9f0035feed49dfb7a5a01fcd6cc7791aa9c6fc56eea
+  checksum: bba6e9cf918a49ac2515569bee76cefb972e1e9431e1445cbdd2e40604e1f56d2ae5690823cc0093b03f66c7b3df87c22e47e67ac58a1bc0a42bebbd44db81d3
   languageName: node
   linkType: hard
 
@@ -4802,6 +4832,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cliui@npm:^7.0.2":
+  version: 7.0.4
+  resolution: "cliui@npm:7.0.4"
+  dependencies:
+    string-width: ^4.2.0
+    strip-ansi: ^6.0.0
+    wrap-ansi: ^7.0.0
+  checksum: c49ac1d13f6dda4beaa11b26f62867e0e9892eb985951187d7c691793e0fe08b9bc15cedfaf4dc6d2e9a4d1516704c0c9dcb671ebcd758dbabb18b5d757fbdb5
+  languageName: node
+  linkType: hard
+
 "clsx@npm:^1.0.4, clsx@npm:^1.1.0":
   version: 1.1.1
   resolution: "clsx@npm:1.1.1"
@@ -5641,10 +5682,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.20.3":
-  version: 2.20.3
-  resolution: "date-fns@npm:2.20.3"
-  checksum: 308e3e3bbc40ad2f15f3babecc3a89fa77beea779e0077ed9db7f928a425fa6548f167c6d69b857b4adb96ab6d521f917a8089b89ed0d9b5f3612749a9fdbce4
+"date-fns@npm:^2.21.1":
+  version: 2.21.1
+  resolution: "date-fns@npm:2.21.1"
+  checksum: 00a2ddea1047c4ce6eaadda76a0ee0782d1cfe65061641bbff94f7a70d2d6ab12dac89e027b39d49710bdb2cf264bc1a4e096b0324c7de79699296a4c19f4a40
   languageName: node
   linkType: hard
 
@@ -6741,6 +6782,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"esm@npm:^3.2.25":
+  version: 3.2.25
+  resolution: "esm@npm:3.2.25"
+  checksum: 12a0272aaa15ce4bc07e52cbb66d471cf56ad81ad1a3c1d9f6fa1e29e8c2712716333825e2572f9dbdfdc787e5717a75cb00ce2846e2a50e2bba6971c24402f3
+  languageName: node
+  linkType: hard
+
 "espree@npm:^7.3.0, espree@npm:^7.3.1":
   version: 7.3.1
   resolution: "espree@npm:7.3.1"
@@ -7497,7 +7545,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"get-caller-file@npm:^2.0.1":
+"get-caller-file@npm:^2.0.1, get-caller-file@npm:^2.0.5":
   version: 2.0.5
   resolution: "get-caller-file@npm:2.0.5"
   checksum: 9dd9e1e2591039ee4c38c897365b904f66f1e650a8c1cb7b7db8ce667fa63e88cc8b13282b74df9d93de481114b3304a0487880d31cd926dfda6efe71455855d
@@ -15761,20 +15809,21 @@ resolve@^2.0.0-next.3:
   resolution: "usermanagementreactfrontent@workspace:."
   dependencies:
     "@material-ui/core": ^4.11.3
-    "@material-ui/data-grid": ^4.0.0-alpha.24
+    "@material-ui/data-grid": ^4.0.0-alpha.25
     "@material-ui/icons": ^4.11.2
     "@material-ui/styles": ^4.11.3
+    "@material-ui/x-grid": ^4.0.0-alpha.25
     "@testing-library/dom": ^7.30.3
     "@testing-library/jest-dom": ^5.11.10
     "@testing-library/react": ^11.2.6
-    "@testing-library/user-event": ^13.1.2
+    "@testing-library/user-event": ^13.1.3
     "@typescript-eslint/eslint-plugin": ^4.22.0
     "@typescript-eslint/parser": ^4.22.0
     axios: ^0.21.1
     axios-auth-refresh: ^3.1.0
     babel-eslint: ^10.1.0
     bcryptjs: ^2.4.3
-    date-fns: ^2.20.3
+    date-fns: ^2.21.1
     eslint: ^7.24.0
     eslint-config-react-app: ^6.0.0
     eslint-plugin-flowtype: ^5.7.0
@@ -16498,6 +16547,17 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"wrap-ansi@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "wrap-ansi@npm:7.0.0"
+  dependencies:
+    ansi-styles: ^4.0.0
+    string-width: ^4.1.0
+    strip-ansi: ^6.0.0
+  checksum: 09939dd775ae565bb99a25a6c072fe3775a95fa71751b5533c94265fe986ba3e3ab071a027ab76cf26876bd9afd10ac3c2d06d7c4bcce148bf7d2d9514e3a0df
+  languageName: node
+  linkType: hard
+
 "wrappy@npm:1":
   version: 1.0.2
   resolution: "wrappy@npm:1.0.2"
@@ -16569,6 +16629,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"y18n@npm:^5.0.5":
+  version: 5.0.8
+  resolution: "y18n@npm:5.0.8"
+  checksum: 56275bfa72a8a585c4d2905b086862fb881dfe7871adcefe4ecf4c1a6a78c6389b459b427c0a8672ccdb09731a78143acc71f0bcc8dc8d8427869fafe7f18b95
+  languageName: node
+  linkType: hard
+
 "yallist@npm:^3.0.2":
   version: 3.1.1
   resolution: "yallist@npm:3.1.1"
@@ -16610,6 +16677,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"yargs-parser@npm:^20.2.2":
+  version: 20.2.7
+  resolution: "yargs-parser@npm:20.2.7"
+  checksum: 124e7f1c24c9609d5d1c343f14b83289634e19bb43770708ebb6a19852647aaa0f89edcbf0e5b18a21bee77f54513ab5051518b2950cda69eb607a7c6251aa4f
+  languageName: node
+  linkType: hard
+
 "yargs@npm:^13.3.2":
   version: 13.3.2
   resolution: "yargs@npm:13.3.2"
@@ -16644,6 +16718,21 @@ resolve@^2.0.0-next.3:
     y18n: ^4.0.0
     yargs-parser: ^18.1.2
   checksum: dbf687d6b938f01bbf11e158dde6df906282b70cd9295af0217ee8cefbd83ad09d49fa9458d0d5325b0e66f03df954a38986db96f91e5b46ccdbbaf9a0157b23
+  languageName: node
+  linkType: hard
+
+"yargs@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "yargs@npm:16.2.0"
+  dependencies:
+    cliui: ^7.0.2
+    escalade: ^3.1.1
+    get-caller-file: ^2.0.5
+    require-directory: ^2.1.1
+    string-width: ^4.2.0
+    y18n: ^5.0.5
+    yargs-parser: ^20.2.2
+  checksum: a79ce1f043021cd645de1ffebb6149541d382ba68f4a6b5eca5d2ad65af51893371bbd78e240dc3b6cf0cbb419511ba5bda715dec992e4266e6863ea49f14feb
   languageName: node
   linkType: hard
 

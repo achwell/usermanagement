@@ -1,13 +1,15 @@
 import React, {forwardRef, Fragment, useImperativeHandle, useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {withSnackbar} from "notistack";
+
 import authenticationService from "../../service/autehentication.service";
+import roleService from "../../service/role.service";
 import userService from "../../service/user.service";
+
 import {Modal} from "../modal/modal";
 import UserForm from "./userform";
 import ChangePasswordForm from "./changepasswordform";
 import Usertable from "./userTable";
-import roleService from "../../service/role.service";
 
 const UserComponent = forwardRef((props, ref) => {
     useImperativeHandle(
