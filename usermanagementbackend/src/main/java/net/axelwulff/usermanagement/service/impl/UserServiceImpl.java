@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setUsername(lowerCase(user.getUsername()));
         user.setEmail(lowerCase(user.getEmail()));
         if (isNotBlank(user.getNewPassword())) {
-            user.setPassword(passwordEncoder.encode(user.getNewPassword()));
+            user.setPassword(user.getNewPassword());
             user.setNewPassword(null);
         }
         validateUsernameAndEmail(currentUsername, user.getUsername(), user.getEmail());

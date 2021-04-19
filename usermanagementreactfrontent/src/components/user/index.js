@@ -8,7 +8,7 @@ import userService from "../../service/user.service";
 
 import {Modal} from "../modal/modal";
 import UserForm from "./userform";
-import ChangePasswordForm from "./changepasswordform";
+import ChangePassword from "./changePassword";
 import Usertable from "./userTable";
 
 const UserComponent = forwardRef((props, ref) => {
@@ -31,9 +31,9 @@ const UserComponent = forwardRef((props, ref) => {
     )
 
     const [users, setUsers] = useState(userService.getUsersFromLocalCache());
-    const [validationErrors, setValidationErrors] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
     const [changePasswordOpen, setChangePasswordOpen] = useState(false);
+    const [submitReadOnly, setSubmitReadOnly] = useState(true);
     const [deleteOpen, setDeleteOpen] = useState(false);
     const [selectedUsername, setSelectedUsername] = useState(null);
     const [selectedName, setSelectedName] = useState(null);
@@ -99,35 +99,35 @@ const UserComponent = forwardRef((props, ref) => {
             setSelectedUsername(user.username);
             setSelectedName(selectedName);
             setSelectedUser(user);
+            setSubmitReadOnly(true);
+            userFormRef.current.serUser(user);
             setEditOpen(true);
         }
     }
 
     const initUpdateUser = user => {
-        if (canRead || canUpdate) {
-            const selectedName = getFullName(user);
-            setSelectedUsername(user.username);
-            setSelectedName(selectedName);
-            user.roleId = user.role.id
-            setSelectedUser(user);
-            setEditOpen(true);
-        }
-    }
-
-    const initUserProfile = () => {
-        const user = authenticationService.getUserFromLocalCache();
         const selectedName = getFullName(user);
         setSelectedUsername(user.username);
         setSelectedName(selectedName);
         user.roleId = user.role.id
         setSelectedUser(user);
+        setSubmitReadOnly(false);
+        userFormRef.current.serUser(user);
         setEditOpen(true);
+    }
+
+    const initUserProfile = () => {
+        const user = authenticationService.getUserFromLocalCache();
+        initUpdateUser(user);
     }
 
     const initChangePassword = () => {
         const user = authenticationService.getUserFromLocalCache();
-        setSelectedUser(user);
+        const selectedName = getFullName(user);
         setSelectedUsername(user.username);
+        setSelectedName(selectedName);
+        changePasswordFormRef.current.setExistingPassword(user.password)
+        setSelectedUser(user);
         setChangePasswordOpen(true);
     }
 
@@ -152,7 +152,7 @@ const UserComponent = forwardRef((props, ref) => {
             .then(response => {
                 //If edit profile
                 if(user.username === authenticationService.getUsername()) {
-                    authenticationService.addUserToLocalCache(user);
+                    authenticationService.addUserToLocalCache(response.data);
                 }
                 handleResponseOk("updated");
             })
@@ -163,7 +163,8 @@ const UserComponent = forwardRef((props, ref) => {
             }));
     }
 
-    const doChangePassword = newPassword => {
+    const doChangePassword = () => {
+        const newPassword = changePasswordFormRef.current.submit();
         const user = {...selectedUser, newPassword}
         doUpdateUser(user);
     }
@@ -189,6 +190,7 @@ const UserComponent = forwardRef((props, ref) => {
 
     const handleResponseOk = action => {
         props.enqueueSnackbar("User " + selectedName + " " + action + ".", {variant: 'success'});
+        userFormRef.current.serUser({id:null});
         setDeleteOpen(false);
         setEditOpen(false);
         setChangePasswordOpen(false);
@@ -237,28 +239,31 @@ const UserComponent = forwardRef((props, ref) => {
                     Vil du slette {selectedUsername + ": " + selectedName}?
                 </div>
             </Modal>
-            <Modal isOpen={editOpen}
-                   handleClose={() => setEditOpen(false)}
-                   title={update ? "Update user" : "Create User"}
-                   handleSubmit={() => userFormRef.current.save()}
-                   submitTitle={update ? "Update" : "Create"}
-                   submitReadOnly={!validationErrors}>
-                <UserForm ref={userFormRef}
-                          initialValues={selectedUser}
-                          onSubmit={update ? doUpdateUser : doCreateUser}
-                          readOnly={readOnly}
-                          setValidationErrors={setValidationErrors}
-                          currentUserId={authenticationService.getUserFromLocalCache().id}
-                />
-            </Modal>
-            <Modal isOpen={changePasswordOpen}
-                   handleClose={() => setChangePasswordOpen(false)}
-                   title="Change Password"
-                   handleSubmit={() => changePasswordFormRef.current.save()}
-                   submitTitle={"Change Password"}
-                   submitReadOnly={!validationErrors}>
-                <ChangePasswordForm ref={changePasswordFormRef} existingPassword={selectedUser ? selectedUser.password : ''} onSubmit={doChangePassword} setValidationErrors={setValidationErrors} />
-            </Modal>
+            <UserForm
+                ref={userFormRef}
+                readOnly={readOnly}
+                submitReadOnly={submitReadOnly}
+                setSubmitReadOnly={setSubmitReadOnly}
+                isOpen={editOpen}
+                title={update ? "Update user" : "Create User"}
+                submitTitle={update ? "Update" : "Create"}
+                onSubmit={update ? doUpdateUser : doCreateUser}
+                handleClose={() => setEditOpen(false)}
+                initialValues={selectedUser}
+                currentUserId={authenticationService.getUserFromLocalCache().id}
+            />
+            <ChangePassword
+                ref={changePasswordFormRef}
+                readOnly={false}
+                submitReadOnly={submitReadOnly}
+                setSubmitReadOnly={setSubmitReadOnly}
+                isOpen={changePasswordOpen}
+                title="Change Password"
+                submitTitle="Change Password"
+                existingPassword={selectedUser ? selectedUser.password : ''}
+                onSubmit={doChangePassword}
+                handleClose={() => setChangePasswordOpen(false)}
+            />
         </Fragment>
     )
 });

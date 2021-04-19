@@ -15,6 +15,8 @@ function Usertable(props) {
         return <span>{label}</span>;
     }
 
+    const renderEmailCell = params => <a href={`mailto:${params.value}`}>{params.value}</a>
+
     const renderDateCell = params => <span>{params.value ? format(new Date(params.value), 'yyyy-MM-dd') : ''}</span>
 
     const renderStatusCell = params => {
@@ -52,7 +54,7 @@ function Usertable(props) {
         {field: 'firstName', headerName: 'First name', flex: 1.5,},
         {field: 'middleName', headerName: 'Middle name', flex: 1,},
         {field: 'lastName', headerName: 'Last name', flex: 1.5,},
-        {field: 'email', headerName: 'Email', flex: 1,},
+        {field: 'email', headerName: 'Email', flex: 1, renderCell: params => renderEmailCell(params)},
         {field: 'phone', headerName: 'Phone', flex: 1,},
         {field: 'role', headerName: 'Role', flex: 1.5, renderCell: params => renderRoleCell(params)},
         props.canSeeLogintime && {

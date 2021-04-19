@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {Link, withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
-import FormControl from "@material-ui/core/FormControl";
-import {Button, Input, InputLabel} from "@material-ui/core";
+import {TextValidator, ValidatorForm} from 'react-material-ui-form-validator';
+import {Button} from "@material-ui/core";
 import {withSnackbar} from "notistack";
 
 import authenticationService from "../../service/autehentication.service";
@@ -13,20 +13,19 @@ import './helptext.scss';
 
 class LoginComponent extends Component {
 
-    state = {username: '', password: ''}
+    state = {formData: {username: '', password: ''}}
 
     handleChange = event => {
-        const value = event.target.value;
-        if (value) {
-            event.target.classList.add("used");
-        } else {
-            event.target.classList.remove("used");
-        }
-        this.setState({[event.target.name]: value});
+        const {formData} = this.state;
+        const name = event.target.name;
+        formData[name] = event.target.value;
+        this.form.isFormValid(false);
+        this.setState({formData});
     }
 
     loginClicked = () => {
-        authenticationService.login({username: this.state.username, password: this.state.password})
+        const {username, password} = this.state.formData;
+        authenticationService.login({username, password})
             .then(response => {
                 const token = response.headers["jwt-token"];
                 authenticationService.saveToken(token);
@@ -55,29 +54,42 @@ class LoginComponent extends Component {
     }
 
     render() {
+        const {formData} = this.state;
         return (
             <>
-                <div style={{display: "flex", justifyContent: "center", margin: 20, padding: 20}}>
-                    <form style={{width: "100%"}} autoComplete="off">
-                        <FormControl margin="normal" fullWidth>
-                            <InputLabel htmlFor="username">Username</InputLabel>
-                            <Input id="username" name="username" type="text" required value={this.state.username}
-                                   onChange={this.handleChange}/>
-                        </FormControl>
-                        <FormControl margin="normal" fullWidth>
-                            <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input id="password" name="password" type="password" required value={this.state.password}
-                                   onChange={this.handleChange}/>
-                        </FormControl>
+                <div style={{display: "flex", justifyContent: "center", margin: 0, padding: 0}}>
+                    <ValidatorForm ref={r => this.form = r} onSubmit={this.loginClicked} instantValidate
+                                   autoComplete="off"
+                                   style={{width: "100%"}}>
+                        <TextValidator
+                            label="Username"
+                            onChange={this.handleChange}
+                            name="username"
+                            type="text"
+                            value={formData.username}
+                            validators={['required']}
+                            errorMessages={['Username is required']}
+                            validatorListener={this.validatorListener}
+                            autoComplete="off"/>
+                        <TextValidator
+                            label="Password"
+                            onChange={this.handleChange}
+                            name="password"
+                            type="password"
+                            value={formData.password}
+                            validators={['required']}
+                            errorMessages={['Password is required']}
+                            validatorListener={this.validatorListener}
+                            autoComplete="off"/>
                         <div>
-                            <Button variant="outlined" color="primary" onClick={this.loginClicked}>Log in</Button>
+                            <Button variant="outlined" color="primary" type="submit">Log in</Button>
                         </div>
                         <br/>
                         <div className="group">
                             Don't have an account?
                             <Link to="/register">Sign Up</Link>
                         </div>
-                    </form>
+                    </ValidatorForm>
                 </div>
                 <h2>Users</h2>
                 <div style={{display: "flex", justifyContent: "center", margin: 20, padding: 20}}>
