@@ -2,37 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {format} from 'date-fns'
-
-import {DataGrid} from "@material-ui/data-grid";
+import {DataGrid, GridToolbar} from "@material-ui/data-grid";
 
 function Usertable(props) {
-
-    const renderRoleCell = params => {
-        const {role} = params.row;
-
-        const roleName = role.name ? role.name : role;
-        const label = roleName.replace(/^(ROLE_)/, "");
-        return <span>{label}</span>;
-    }
 
     const renderEmailCell = params => <a href={`mailto:${params.value}`}>{params.value}</a>
 
     const renderDateCell = params => <span>{params.value ? format(new Date(params.value), 'yyyy-MM-dd') : ''}</span>
 
-    const renderStatusCell = params => {
-        const {active, notLocked} = params.row;
-        let lockIcon = notLocked ? "lock_open" : "lock";
-        let title = notLocked ? "Unlocked" : "Locked";
-        let lockClass = notLocked ? "green" : "red";
+    const renderActiveCell = params => {
+        const {active} = params.row;
         let activeIcon = active ? "check_circle_outline" : "highlight_off";
         let activeTitle = active ? "Active" : "Inactive";
         let activeClass = active ? "green" : "red";
+        return (
+            <i className={`material-icons icon-image-preview ${activeClass}`} title={activeTitle}>{activeIcon}</i>
+        );
+    }
+
+    const renderUnlockedCell = params => {
+        const {notLocked} = params.row;
+        let lockIcon = notLocked ? "lock_open" : "lock";
+        let title = notLocked ? "Unlocked" : "Locked";
+        let lockClass = notLocked ? "green" : "red";
 
         return (
-            <div>
-                <i className={`material-icons icon-image-preview ${lockClass}`} title={title}>{lockIcon}</i>
-                <i className={`material-icons icon-image-preview ${activeClass}`} title={activeTitle}>{activeIcon}</i>
-            </div>
+            <i className={`material-icons icon-image-preview ${lockClass}`} title={title}>{lockIcon}</i>
         );
     };
 
@@ -56,11 +51,12 @@ function Usertable(props) {
         {field: 'lastName', headerName: 'Last name', flex: 1.4,},
         {field: 'email', headerName: 'Email', flex: 1.2, renderCell: params => renderEmailCell(params)},
         {field: 'phone', headerName: 'Phone', flex: 0.9,},
-        {field: 'role', headerName: 'Role', flex: 1.5, renderCell: params => renderRoleCell(params)},
+        {field: 'roleName', headerName: 'Role', flex: 1.5},
         props.canSeeLogintime && {
             field: 'joinDate',
             headerName: 'Join date',
             flex: 0.9,
+            type: 'date',
             renderCell: params => renderDateCell(params)
 
         },
@@ -68,19 +64,24 @@ function Usertable(props) {
             field: 'lastLoginDate',
             headerName: 'Last login date',
             flex: 1,
+            type: 'date',
             renderCell: params => renderDateCell(params)
         },
         {
             field: 'active',
-            headerName: 'Status',
-            filterable: false,
-            sortable: false,
+            headerName: 'Active',
             flex: 0.9,
-            renderCell: params => renderStatusCell(params)
+            renderCell: params => renderActiveCell(params)
+        },
+        {
+            field: 'notLocked',
+            headerName: 'Unlocked',
+            flex: 0.9,
+            renderCell: params => renderUnlockedCell(params)
         },
         (props.canUpdate || props.canDelete) &&
         {
-            field: "notLocked",
+            field: "id",
             sortable: false,
             filterable: false,
             headerName: "Actions",
@@ -90,9 +91,14 @@ function Usertable(props) {
         },
     ]
 
+    const rows = props.rows.map(value => {
+        const roleName = value.role.name;
+        value.roleName = value.role ? roleName ? roleName.replace(/^(ROLE_)/, "") : "" : "";
+        return value;
+    });
     return (
         <div style={{height: '90vh', width: '100%'}}>
-            <DataGrid rows={props.rows} columns={columns} pageSize={25} size="small"/>
+            <DataGrid rows={rows} columns={columns} pageSize={25} size="small" components={{Toolbar: GridToolbar,}} />
         </div>
     );
 }
