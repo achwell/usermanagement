@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React, {Component, createRef} from "react";
 import {Link, withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
-import {TextValidator, ValidatorForm} from 'react-material-ui-form-validator';
+import {TextValidator} from 'react-material-ui-form-validator';
 import {Button} from "@material-ui/core";
 import {withSnackbar} from "notistack";
 
@@ -10,16 +10,18 @@ import roleService from "../../service/role.service";
 import userService from "../../service/user.service";
 
 import './helptext.scss';
+import Form from "../form/form";
 
 class LoginComponent extends Component {
 
     state = {formData: {username: '', password: ''}}
+    form = createRef()
 
     handleChange = event => {
         const {formData} = this.state;
         const name = event.target.name;
         formData[name] = event.target.value;
-        this.form.isFormValid(false);
+        this.form.current.isFormValid(false);
         this.setState({formData});
     }
 
@@ -57,21 +59,20 @@ class LoginComponent extends Component {
         const {formData} = this.state;
         return (
             <>
-                <div style={{display: "flex", justifyContent: "center", margin: 0, padding: 0}}>
-                    <ValidatorForm ref={r => this.form = r} onSubmit={this.loginClicked} instantValidate
-                                   autoComplete="off"
-                                   style={{width: "100%"}}>
-                        <TextValidator
-                            label="Username"
-                            onChange={this.handleChange}
-                            name="username"
-                            type="text"
-                            value={formData.username}
-                            validators={['required']}
-                            errorMessages={['Username is required']}
-                            validatorListener={this.validatorListener}
+                <Form onSubmit={this.loginClicked} ref={this.form}>
+                    <TextValidator
+                        variant="outlined"
+                        label="Username"
+                        onChange={this.handleChange}
+                        name="username"
+                        type="text"
+                        value={formData.username}
+                        validators={['required']}
+                        errorMessages={['Username is required']}
+                        validatorListener={this.validatorListener}
                             autoComplete="off"/>
                         <TextValidator
+                            variant="outlined"
                             label="Password"
                             onChange={this.handleChange}
                             name="password"
@@ -81,16 +82,15 @@ class LoginComponent extends Component {
                             errorMessages={['Password is required']}
                             validatorListener={this.validatorListener}
                             autoComplete="off"/>
-                        <div>
-                            <Button variant="outlined" color="primary" type="submit">Log in</Button>
-                        </div>
-                        <br/>
-                        <div className="group">
-                            Don't have an account?
-                            <Link to="/register">Sign Up</Link>
-                        </div>
-                    </ValidatorForm>
-                </div>
+                    <div>
+                        <Button variant="outlined" color="primary" type="submit">Log in</Button>
+                    </div>
+                    <br/>
+                    <div className="group">
+                        Don't have an account?
+                        <Link to="/register">Sign Up</Link>
+                    </div>
+                </Form>
                 <h2>Users</h2>
                 <div style={{display: "flex", justifyContent: "center", margin: 20, padding: 20}}>
                     <table>

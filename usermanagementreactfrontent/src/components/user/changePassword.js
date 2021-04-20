@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component, createRef} from 'react';
 import PropTypes from 'prop-types';
 import bcrypt from 'bcryptjs';
 import {TextValidator, ValidatorForm} from 'react-material-ui-form-validator';
 import {Modal} from "../modal/modal";
+import Form from "../form/form";
 
 class ChangePassword extends Component {
 
@@ -14,7 +15,7 @@ class ChangePassword extends Component {
         if (!ValidatorForm.hasValidationRule('isOldPasswordMatch')) {
             ValidatorForm.addValidationRule('isOldPasswordMatch', value => this.verifyPasswords(value, this.state.existingPassword));
         }
-
+        this.form = createRef()
         this.state = {
             formData: {
                 oldPassword: '',
@@ -53,12 +54,12 @@ class ChangePassword extends Component {
         const {formData} = this.state;
         const name = event.target.name;
         formData[name] = event.target.value;
-        this.form.isFormValid(false);
+        this.form.current.isFormValid(false);
         this.setState({formData});
     }
 
     submit = () => {
-        this.form.submit();
+        this.form.current.submit();
         const newPassword = this.hashPassword(this.state.formData.newPassword);
         this.setState({
             formData: {oldPassword: '', newPassword: '', verifyNewPassword: ''},
@@ -84,41 +85,41 @@ class ChangePassword extends Component {
                    handleSubmit={onSubmit}
                    submitTitle={submitTitle}
                    submitReadOnly={submitReadOnly}>
-                <div style={{display: "flex", justifyContent: "center", margin: 0, padding: 0}}>
-
-                    <ValidatorForm ref={r => this.form = r} onSubmit={() => { }} instantValidate autoComplete="off" style={{width: "100%"}}>
-                        <TextValidator
-                            label="Old password"
-                            onChange={this.handleChange}
-                            name="oldPassword"
-                            type="password"
-                            value={formData.oldPassword}
-                            validators={['required', 'isOldPasswordMatch']}
-                            errorMessages={['Old password is required', 'password mismatch']}
-                            validatorListener={this.validatorListener}
-                            autoComplete="off"/>
-                        <TextValidator
-                            label="New password"
-                            onChange={this.handleChange}
-                            name="newPassword"
-                            type="password"
-                            value={formData.newPassword}
-                            validators={['required']}
-                            errorMessages={['New password is required']}
-                            validatorListener={() => this.validatorListener(this)}
-                            autoComplete="off"/>
-                        <TextValidator
-                            label="Verify new password"
-                            onChange={this.handleChange}
-                            name="verifyNewPassword"
-                            type="password"
-                            value={formData.verifyNewPassword}
-                            validators={['required', 'isPasswordMatch']}
-                            errorMessages={['Verify new password is required', 'password mismatch']}
-                            validatorListener={this.validatorListener}
-                            autoComplete="off"/>
-                    </ValidatorForm>
-                </div>
+                <Form ref={this.form} onSubmit={() => { }}>
+                    <TextValidator
+                        variant="outlined"
+                        label="Old password"
+                        onChange={this.handleChange}
+                        name="oldPassword"
+                        type="password"
+                        value={formData.oldPassword}
+                        validators={['required', 'isOldPasswordMatch']}
+                        errorMessages={['Old password is required', 'password mismatch']}
+                        validatorListener={this.validatorListener}
+                        autoComplete="off"/>
+                    <TextValidator
+                        variant="outlined"
+                        label="New password"
+                        onChange={this.handleChange}
+                        name="newPassword"
+                        type="password"
+                        value={formData.newPassword}
+                        validators={['required']}
+                        errorMessages={['New password is required']}
+                        validatorListener={() => this.validatorListener(this)}
+                        autoComplete="off"/>
+                    <TextValidator
+                        variant="outlined"
+                        label="Verify new password"
+                        onChange={this.handleChange}
+                        name="verifyNewPassword"
+                        type="password"
+                        value={formData.verifyNewPassword}
+                        validators={['required', 'isPasswordMatch']}
+                        errorMessages={['Verify new password is required', 'password mismatch']}
+                        validatorListener={this.validatorListener}
+                        autoComplete="off"/>
+                </Form>
             </Modal>
         );
     }
