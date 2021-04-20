@@ -51,16 +51,16 @@ function Usertable(props) {
 
     const columns = [
         {field: 'username', headerName: 'Username', flex: 1,},
-        {field: 'firstName', headerName: 'First name', flex: 1.5,},
+        {field: 'firstName', headerName: 'First name', flex: 1.4,},
         {field: 'middleName', headerName: 'Middle name', flex: 1,},
-        {field: 'lastName', headerName: 'Last name', flex: 1.5,},
-        {field: 'email', headerName: 'Email', flex: 1, renderCell: params => renderEmailCell(params)},
-        {field: 'phone', headerName: 'Phone', flex: 1,},
+        {field: 'lastName', headerName: 'Last name', flex: 1.4,},
+        {field: 'email', headerName: 'Email', flex: 1.2, renderCell: params => renderEmailCell(params)},
+        {field: 'phone', headerName: 'Phone', flex: 0.9,},
         {field: 'role', headerName: 'Role', flex: 1.5, renderCell: params => renderRoleCell(params)},
         props.canSeeLogintime && {
             field: 'joinDate',
             headerName: 'Join date',
-            flex: 1,
+            flex: 0.9,
             renderCell: params => renderDateCell(params)
 
         },
@@ -75,7 +75,7 @@ function Usertable(props) {
             headerName: 'Status',
             filterable: false,
             sortable: false,
-            flex: 1,
+            flex: 0.9,
             renderCell: params => renderStatusCell(params)
         },
         (props.canUpdate || props.canDelete) &&
@@ -84,7 +84,7 @@ function Usertable(props) {
             sortable: false,
             filterable: false,
             headerName: "Actions",
-            flex: 1,
+            flex: 0.9,
             disableClickEventBubbling: true,
             renderCell: params => renderActionsCell(params)
         },
