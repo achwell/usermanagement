@@ -67,6 +67,11 @@ const UserComponent = forwardRef((props, ref) => {
                 userService.addUsersToLocalCache(response.data);
                 roleService.loadRoles();
                 const users = userService.getUsersFromLocalCache();
+                const currentUser = users.filter(user => user.username === username)[0];
+                if(currentUser) {
+                    authenticationService.addUserToLocalCache(currentUser);
+                }
+
                 if (showMessage) {
                     props.enqueueSnackbar(users.length + " users loaded.", {variant: 'success'});
                 }

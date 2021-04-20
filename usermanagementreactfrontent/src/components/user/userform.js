@@ -1,7 +1,6 @@
 import React, {Component, createRef} from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import {TextValidator} from 'react-material-ui-form-validator';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import {withSnackbar} from "notistack";
@@ -9,6 +8,8 @@ import roleService from "../../service/role.service";
 import {Modal} from "../modal/modal";
 import CheckboxValidatorElement from "../form/input/CheckboxValidatorElement";
 import {Selectinput} from "../form/input/selectinput";
+import TextElement from "../form/input/TextElement";
+
 import Form from "../form/form";
 
 class UserForm extends Component {
@@ -42,6 +43,7 @@ class UserForm extends Component {
         const {user} = this.state;
         const name = event.target.name;
         user[name] = event.target.checked;
+        this.form.current.isFormValid(false);
         this.setState({user});
     }
 
@@ -52,11 +54,11 @@ class UserForm extends Component {
         const role = this.state.roles.filter(role => role.id === roleId)[0];
         user[name] = roleId;
         user.role = role;
+        this.form.current.isFormValid(false);
         this.setState(user);
     }
 
     save = () => {
-        this.form.current.submit();
         this.props.onSubmit(_.omit(this.state.user, 'roleId'));
     }
 
@@ -86,82 +88,66 @@ class UserForm extends Component {
                    submitTitle={submitTitle}
                    submitReadOnly={submitReadOnly}>
                 <Form onSubmit={this.save} ref={this.form}>
-                    <TextValidator
-                        variant="outlined"
+                    <TextElement
                         label="Username"
                         onChange={(readOnly || !!user.id) ? () => {} : this.handleChange}
                         name="username"
-                        type="text"
                         value={user.username}
                         required
                         readOnly={readOnly || !!user.id}
                         validators={['required', 'minStringLength:7', 'matchRegexp:^[a-z0-9]{7,}$']}
                         errorMessages={['Usernamed is required', 'Username must be 7 or more characters', 'Username contains illegal characters']}
-                        validatorListener={this.validatorListener}
-                        autoComplete="off"/>
-                    <TextValidator
-                        variant="outlined"
+                        validatorListener={this.validatorListener}/>
+                    <TextElement
                         label="First name"
                         onChange={this.handleChange}
                         name="firstName"
-                        type="text"
                         value={user.firstName}
                         required
                         readOnly={readOnly}
                         validators={['required']}
                         errorMessages={['First name is required']}
                         validatorListener={this.validatorListener}
-                        autoComplete="off"/>
-                    <TextValidator
-                        variant="outlined"
+                        />
+                    <TextElement
                         label="Middle name"
                         onChange={this.handleChange}
                         name="middleName"
-                        type="text"
                         value={user.middleName}
                         readOnly={readOnly}
                         validators={[]}
                         errorMessages={[]}
-                        validatorListener={this.validatorListener}
-                        autoComplete="off"/>
-                    <TextValidator
-                        variant="outlined"
+                        validatorListener={this.validatorListener}/>
+                    <TextElement
                         label="Last name"
                         onChange={this.handleChange}
                         name="lastName"
-                        type="text"
                         value={user.lastName}
                         required
                         readOnly={readOnly}
                         validators={['required']}
                         errorMessages={['Last name is required']}
-                        validatorListener={this.validatorListener}
-                        autoComplete="off"/>
-                    <TextValidator
+                        validatorListener={this.validatorListener}/>
+                    <TextElement
                         label="Email"
                         onChange={this.handleChange}
                         name="email"
-                        type="email"
                         value={user.email}
                         required
                         readOnly={readOnly}
                         validators={['required', 'isEmail']}
                         errorMessages={['Email is required', 'Email is not valid']}
-                        validatorListener={this.validatorListener}
-                        autoComplete="off"/>
-                    <TextValidator
-                        variant="outlined"
+                        validatorListener={this.validatorListener}/>
+                    <TextElement
                         label="Phone"
                         onChange={this.handleChange}
                         name="phone"
-                        type="text"
                         value={user.phone}
                         required
                         readOnly={readOnly}
                         validators={['required']}
                         errorMessages={['Phone is required']}
-                        validatorListener={this.validatorListener}
-                        autoComplete="off"/>
+                        validatorListener={this.validatorListener}/>
                     <CheckboxValidatorElement
                         name="active"
                         label="Active"

@@ -33,13 +33,15 @@ class Systemstatus extends React.Component {
     }
 
     reloadData = async (updateTime) => {
-        const {systemStatus, dbStatus, diskSpace} = await this.getSystemHealth();
-        const timestamp = await this.getProcessUpTime();
-        const systemCpu = await this.getSystemCPU();
-        this.setState({systemStatus, dbStatus, diskSpace, timestamp, systemCpu});
-        if(updateTime) {
-            const intervalID = this.updateTime();
-            this.props.setIntervalID(intervalID);
+        if(authenticationService.isLoggedIn()) {
+            const {systemStatus, dbStatus, diskSpace} = await this.getSystemHealth();
+            const timestamp = await this.getProcessUpTime();
+            const systemCpu = await this.getSystemCPU();
+            this.setState({systemStatus, dbStatus, diskSpace, timestamp, systemCpu});
+            if(updateTime) {
+                const intervalID = this.updateTime();
+                this.props.setIntervalID(intervalID);
+            }
         }
     }
 

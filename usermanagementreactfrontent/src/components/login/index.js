@@ -1,7 +1,7 @@
 import React, {Component, createRef} from "react";
 import {Link, withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
-import {TextValidator} from 'react-material-ui-form-validator';
+import TextElement from "../form/input/TextElement";
 import {Button} from "@material-ui/core";
 import {withSnackbar} from "notistack";
 
@@ -60,28 +60,24 @@ class LoginComponent extends Component {
         return (
             <>
                 <Form onSubmit={this.loginClicked} ref={this.form}>
-                    <TextValidator
-                        variant="outlined"
+                    <TextElement
                         label="Username"
                         onChange={this.handleChange}
                         name="username"
-                        type="text"
                         value={formData.username}
+                        required
                         validators={['required']}
                         errorMessages={['Username is required']}
-                        validatorListener={this.validatorListener}
-                            autoComplete="off"/>
-                        <TextValidator
-                            variant="outlined"
-                            label="Password"
-                            onChange={this.handleChange}
-                            name="password"
-                            type="password"
-                            value={formData.password}
-                            validators={['required']}
-                            errorMessages={['Password is required']}
-                            validatorListener={this.validatorListener}
-                            autoComplete="off"/>
+                        validatorListener={this.validatorListener}/>
+                    <TextElement
+                        label="Password"
+                        onChange={this.handleChange}
+                        name="password"
+                        type="password"
+                        value={formData.password}
+                        validators={['required']}
+                        errorMessages={['Password is required']}
+                        validatorListener={this.validatorListener}/>
                     <div>
                         <Button variant="outlined" color="primary" type="submit">Log in</Button>
                     </div>

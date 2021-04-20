@@ -1,7 +1,8 @@
 import React, {Component, createRef} from 'react';
 import PropTypes from 'prop-types';
 import bcrypt from 'bcryptjs';
-import {TextValidator, ValidatorForm} from 'react-material-ui-form-validator';
+import {ValidatorForm} from 'react-material-ui-form-validator';
+import TextElement from "../form/input/TextElement";
 import {Modal} from "../modal/modal";
 import Form from "../form/form";
 
@@ -86,39 +87,36 @@ class ChangePassword extends Component {
                    submitTitle={submitTitle}
                    submitReadOnly={submitReadOnly}>
                 <Form ref={this.form} onSubmit={() => { }}>
-                    <TextValidator
-                        variant="outlined"
+                    <TextElement
                         label="Old password"
                         onChange={this.handleChange}
                         name="oldPassword"
                         type="password"
                         value={formData.oldPassword}
+                        required
                         validators={['required', 'isOldPasswordMatch']}
                         errorMessages={['Old password is required', 'password mismatch']}
-                        validatorListener={this.validatorListener}
-                        autoComplete="off"/>
-                    <TextValidator
-                        variant="outlined"
+                        validatorListener={this.validatorListener}/>
+                    <TextElement
                         label="New password"
                         onChange={this.handleChange}
                         name="newPassword"
                         type="password"
                         value={formData.newPassword}
+                        required
                         validators={['required']}
                         errorMessages={['New password is required']}
-                        validatorListener={() => this.validatorListener(this)}
-                        autoComplete="off"/>
-                    <TextValidator
-                        variant="outlined"
+                        validatorListener={() => this.validatorListener(this)}/>
+                    <TextElement
                         label="Verify new password"
                         onChange={this.handleChange}
                         name="verifyNewPassword"
                         type="password"
                         value={formData.verifyNewPassword}
+                        required
                         validators={['required', 'isPasswordMatch']}
                         errorMessages={['Verify new password is required', 'password mismatch']}
-                        validatorListener={this.validatorListener}
-                        autoComplete="off"/>
+                        validatorListener={this.validatorListener}/>
                 </Form>
             </Modal>
         );
