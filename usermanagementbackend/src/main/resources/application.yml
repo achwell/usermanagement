@@ -2,6 +2,9 @@ server:
   port: 8081
   error:
     path: /error
+  jetty:
+    accesslog:
+      enabled: true
 
 management:
   endpoint:
@@ -16,25 +19,40 @@ management:
       enabled: true
 
 spring:
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: default
   datasource:
     driver-class-name: org.h2.Driver
-    url: "jdbc:h2:mem:testdb"
+    url: jdbc:h2:mem:test
     username: sa
     password: password
     initialization-mode: embedded
+    platform: h2
+  devtools:
+    add-properties: true
   h2:
     console:
-      path: /h2-console
       enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
+  hibernate:
+    hbm2ddl:
+      auto: create-drop
+    show_sql: true
   jpa:
-    show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
-  devtools:
-    add-properties: true
+        format_sql: true
+    show-sql: true
 
 jwt:
   secret: '[a-zA-Z0-9._]^+$Guidelines89797987forAlphabeticalArraNumeralsandOtherSymbo$'
@@ -46,10 +64,28 @@ app:
 
 logging:
   level:
+    org:
+      hibernate:
+        sql: debug
+        type:
+          descriptor:
+            sql:
+              BasicBinder: trace
     web: debug
+  pattern:
+    dateformat: yyy-MM-dd HH:mm:ss SSS
 
 info:
   app:
-    name: User Manager Application
-    description: This is an application to manage users
-    version: 1.0
+    name: ^project.name^
+    description: ^project.description^
+    version: ^project.version^
+
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
+  packages-to-scan: net.axelwulff.usermanagement.domain, net.axelwulff.usermanagement.resource
+  packages-to-exclude: net.axelwulff.usermanagement.repository
+  show-actuator: true

@@ -16,7 +16,7 @@
         <project.build.soureceEncoding>UTF-8</project.build.soureceEncoding>
         <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
         <frontend-maven-plugin.version>1.11.3</frontend-maven-plugin.version>
-        <nodeVersion>v14.15.1</nodeVersion>
+        <nodeVersion>v15.9.0</nodeVersion>
         <yarnVersion>v1.22.10</yarnVersion>
 
     </properties>
@@ -51,6 +51,7 @@
                 <version>${frontend-maven-plugin.version}</version>
                 <configuration>
                     <installDirectory>target</installDirectory>
+                    <workingDirectory>src</workingDirectory>
                 </configuration>
                 <executions>
                     <execution>
@@ -86,5 +87,30 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>all</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>node_modules</directory>
+                                </fileset>
+                                <fileset>
+                                    <directory>build</directory>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

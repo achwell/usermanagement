@@ -1,5 +1,7 @@
 package net.axelwulff.usermanagement.domain;
 
+import net.axelwulff.usermanagement.converter.BooleanConverter;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -9,20 +11,22 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Table(name = "user_account")
 public class User extends BaseDomainObject {
 
     @Id
-    @GeneratedValue(strategy = AUTO)
-    @Column(nullable = false, updatable = false)
+    @GeneratedValue(strategy = IDENTITY, generator = "native")
+    @Column(nullable = false, updatable = false, unique = true)
     private Long id;
 
     @Column(nullable = false)
     @NotEmpty
     private String firstName;
 
+    @Column()
     private String middleName;
 
     @Column(nullable = false)
@@ -33,12 +37,14 @@ public class User extends BaseDomainObject {
     @Pattern(regexp = "[a-zA-Z0-9]{7,}")
     private String username;
 
+    @Transient
     private String oldUsername;
 
     @Column(nullable = false)
     @NotEmpty
     private String password;
 
+    @Transient
     private String newPassword;
 
     @Column(nullable = false, unique = true)
@@ -50,10 +56,13 @@ public class User extends BaseDomainObject {
     @NotEmpty
     private String phone;
 
+    @Column()
     private LocalDateTime lastLoginDate;
 
+    @Column()
     private LocalDateTime lastLoginDateDisplay;
 
+    @Column(nullable = false)
     private LocalDate joinDate;
 
     @ManyToOne(fetch = EAGER)
@@ -61,8 +70,11 @@ public class User extends BaseDomainObject {
     private Role role;
 
     @Column()
+    @Convert(converter = BooleanConverter.class)
     private boolean isActive;
 
+    @Column()
+    @Convert(converter = BooleanConverter.class)
     private boolean isNotLocked;
 
     public Long getId() {

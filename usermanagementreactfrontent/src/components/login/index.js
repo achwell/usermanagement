@@ -17,6 +17,8 @@ class LoginComponent extends Component {
     state = {formData: {username: '', password: ''}}
     form = createRef()
 
+    baseUrl = process.env.REACT_APP_BACKEND_BASE_URL ? process.env.REACT_APP_BACKEND_BASE_URL : window.location.origin;
+
     handleChange = event => {
         const {formData} = this.state;
         const name = event.target.name;
@@ -163,25 +165,64 @@ class LoginComponent extends Component {
                         </tbody>
                     </table>
                 </div>
-                <h2>Databaseconsole</h2>
+                <h2>Profiles</h2>
                 <div style={{display: "flex", justifyContent: "center", margin: 20, padding: 20}}>
 
                     <table>
+                        <thead>
+                        <tr>
+                            <th>profile</th>
+                            <th>database</th>
+                            <th>h2-console available</th>
+                        </tr>
+                        </thead>
                         <tbody>
                         <tr>
-                            <td colSpan="2"><a target="_blank" rel="noreferrer"
-                                               href="http://localhost:8081/h2-console">Databaseconsole</a></td>
+                            <td>&nbsp;</td>
+                            <td>h2</td>
+                            <td>yes</td>
                         </tr>
                         <tr>
-                            <td>Username</td>
-                            <td>sa</td>
+                            <td>derby</td>
+                            <td>Embedded derby</td>
+                            <td>no</td>
                         </tr>
                         <tr>
-                            <td>Password</td>
-                            <td>password</td>
+                            <td>mysql</td>
+                            <td>mysql</td>
+                            <td>no</td>
                         </tr>
                         </tbody>
+                    </table>
+                </div>
+                <h2>Tools</h2>
+                <div style={{display: "flex", justifyContent: "center", margin: 20, padding: 20}}>
 
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Username</th>
+                                <th>Password</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><a target="_blank" rel="noreferrer" href={`${this.baseUrl}/h2-console`}>Databaseconsole</a></td>
+                            <td>sa</td>
+                            <td>password</td>
+                        </tr>
+                        <tr>
+                            <td><a target="_blank" rel="noreferrer" href={`${this.baseUrl}/swagger-ui.html`}>Swagger</a></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><a target="_blank" rel="noreferrer" href={`${this.baseUrl}/actuator`}>Actuator</a></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        </tbody>
                     </table>
                 </div>
             </>

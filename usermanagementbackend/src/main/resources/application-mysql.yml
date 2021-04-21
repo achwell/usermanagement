@@ -1,12 +1,12 @@
 spring:
   datasource:
-    url: "jdbc:mysql://localhost:3306/supportportal"
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/supportportal
     username: supportportal
     password: supportportal
-    initialization-mode: embedded
+    platform: mysql
+    initialization-mode: always
   jpa:
-    hibernate:
-      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect

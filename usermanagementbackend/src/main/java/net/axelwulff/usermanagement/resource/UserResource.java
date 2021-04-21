@@ -1,7 +1,6 @@
 package net.axelwulff.usermanagement.resource;
 
 import net.axelwulff.usermanagement.domain.User;
-import net.axelwulff.usermanagement.domain.UserPrincipal;
 import net.axelwulff.usermanagement.exception.*;
 import net.axelwulff.usermanagement.service.UserService;
 import net.axelwulff.usermanagement.utility.JWTTokenProvider;
@@ -11,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +21,7 @@ import java.util.List;
 
 import static net.axelwulff.usermanagement.constant.SecurityConstant.JWT_TOKEN_HEADER;
 import static net.axelwulff.usermanagement.constant.SecurityConstant.TOKEN_PREFIX;
+import static net.axelwulff.usermanagement.utility.Utils.createUserDetails;
 import static org.apache.commons.lang3.StringUtils.startsWith;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -28,7 +29,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping(path = {"/", "/user"})
+@RequestMapping(path = {"/user"})
 public class UserResource extends ExceptionHandling {
 
     public static final String EMAIL_SENT = "An email with a new password was sent to: ";
@@ -48,8 +49,8 @@ public class UserResource extends ExceptionHandling {
     public ResponseEntity<User> login(@RequestBody User user) {
         authenticate(user.getUsername(), user.getPassword());
         User loginUser = userService.findUserByUsername(user.getUsername());
-        UserPrincipal userPrincipal = new UserPrincipal(loginUser);
-        HttpHeaders jwtHeader = getJwtHeader(userPrincipal);
+        UserDetails userDetails = createUserDetails(loginUser);
+        HttpHeaders jwtHeader = getJwtHeader(userDetails);
         return new ResponseEntity<>(loginUser, jwtHeader, OK);
     }
 
@@ -114,9 +115,9 @@ public class UserResource extends ExceptionHandling {
         return new ResponseEntity<>(new HttpResponse(httpStatus, message), httpStatus);
     }
 
-    private HttpHeaders getJwtHeader(UserPrincipal userPrincipal) {
+    private HttpHeaders getJwtHeader(UserDetails userDetails) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add(JWT_TOKEN_HEADER, jwtTokenProvider.generateJwtToken(userPrincipal));
+        headers.add(JWT_TOKEN_HEADER, jwtTokenProvider.generateJwtToken(userDetails));
         return headers;
     }
 

@@ -2,7 +2,6 @@ package net.axelwulff.usermanagement.service.impl;
 
 import net.axelwulff.usermanagement.domain.Role;
 import net.axelwulff.usermanagement.domain.User;
-import net.axelwulff.usermanagement.domain.UserPrincipal;
 import net.axelwulff.usermanagement.exception.EmailExistException;
 import net.axelwulff.usermanagement.exception.EmailNotFoundException;
 import net.axelwulff.usermanagement.exception.UserNotFoundException;
@@ -27,6 +26,7 @@ import java.util.Objects;
 
 import static java.time.LocalDateTime.now;
 import static net.axelwulff.usermanagement.constant.UserImplConstant.*;
+import static net.axelwulff.usermanagement.utility.Utils.createUserDetails;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.apache.commons.lang3.StringUtils.*;
 
@@ -61,9 +61,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.setLastLoginDateDisplay(user.getLastLoginDate());
             user.setLastLoginDate(now());
             userRepository.save(user);
-            UserDetails userPrincipal = new UserPrincipal(user);
             LOGGER.info(FOUND_USER_BY_USERNAME + username);
-            return userPrincipal;
+            return createUserDetails(user);
         }
     }
 

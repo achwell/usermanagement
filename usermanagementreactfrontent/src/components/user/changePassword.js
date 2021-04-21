@@ -43,7 +43,7 @@ class ChangePassword extends Component {
     }
 
     hashPassword = password => {
-        var salt = bcrypt.genSaltSync(10);
+        const salt = bcrypt.genSaltSync(10);
         return bcrypt.hashSync(password, salt);
     }
 
