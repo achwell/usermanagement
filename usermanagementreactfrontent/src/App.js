@@ -34,8 +34,11 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         color: "rgba(0, 0, 0, 0.87)"
     },
+    ok: {
+        color: "rgba(67, 160, 71, 1)"
+    },
     error: {
-        color: "rgba(255, 0, 0, 1)"
+        color: "rgba(211, 47, 47, 1)"
     }
 }));
 
@@ -73,6 +76,7 @@ function App() {
                         className={classes.button}
                         color="primary"
                         aria-label="Create User"
+                        title="Create User"
                         onClick={() => userComponentRef.current.create()}
                     >
                         <AddIcon/>
@@ -82,13 +86,14 @@ function App() {
                         edge="start"
                         className={classes.button}
                         color="primary"
-                        aria-label="Reload"
+                        aria-label="Reload users"
+                        title="Reload users"
                         onClick={() => {
                             userComponentRef.current.reload();
                             updateSystemStatusComponent();
                         }}
                     >
-                        <RefreshIcon/>
+                        <RefreshIcon />
                     </IconButton>
                     }
                     <UserActions isLoggedIn={isLoggedIn} logOutAction={logout} profileAction={userProfile} changePasswordAction={changePassword}/>

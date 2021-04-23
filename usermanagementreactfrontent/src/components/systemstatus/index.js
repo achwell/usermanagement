@@ -5,6 +5,7 @@ import authenticationService from "../../service/autehentication.service";
 
 const INITIAL_STATE = {
     systemStatus: 'DOWN',
+    dbType: '',
     dbStatus: 'DOWN',
     systemHealth: {},
     systemCpu: 0,
@@ -34,10 +35,10 @@ class Systemstatus extends React.Component {
 
     reloadData = async (updateTime) => {
         if(authenticationService.isLoggedIn()) {
-            const {systemStatus, dbStatus, diskSpace} = await this.getSystemHealth();
+            const {systemStatus, dbType, dbStatus, diskSpace} = await this.getSystemHealth();
             const timestamp = await this.getProcessUpTime();
             const systemCpu = await this.getSystemCPU();
-            this.setState({systemStatus, dbStatus, diskSpace, timestamp, systemCpu});
+            this.setState({systemStatus, dbType, dbStatus, diskSpace, timestamp, systemCpu});
             if(updateTime) {
                 const intervalID = this.updateTime();
                 this.props.setIntervalID(intervalID);
@@ -52,9 +53,10 @@ class Systemstatus extends React.Component {
         const diskSpaceComponent = systemHealth.components.diskSpace;
 
         const systemStatus = systemHealth.status;
-        const dbStatus = `${dbComponent.details.database} - ${dbComponent.status}`;
+        const dbType = dbComponent.details.database
+        const dbStatus = dbComponent.status;
         const diskSpace = diskSpaceComponent.details.free;
-        return {systemStatus, dbStatus, diskSpace};
+        return {systemStatus, dbType, dbStatus, diskSpace};
     }
 
     getProcessUpTime = async () => {
@@ -89,23 +91,25 @@ class Systemstatus extends React.Component {
         if(!authenticationService.hasAuthority("system:status")) {
             return null;
         }
-        const {timestamp, diskSpace, dbStatus, systemStatus, systemCpu} = this.state;
+        const {timestamp, diskSpace, dbType, dbStatus, systemStatus, systemCpu} = this.state;
+        const {ok, error} = this.props.classes;
         return (
             <>
-                <TypoGraphy variant="caption" className={`${this.props.classes.caption} ${systemStatus.endsWith("UP") ? "" : this.props.classes.error}`}>
-                    System: {systemStatus}
-                </TypoGraphy>
-                <TypoGraphy variant="caption" className={`${this.props.classes.caption} ${dbStatus.endsWith("UP") ? "" : this.props.classes.error}`}>
-                    DB: {dbStatus}
-                </TypoGraphy>
-                <TypoGraphy variant="caption" className={`${this.props.classes.caption} ${Math.round(diskSpace / 1024 / 1024 / 1024) > 1 ? "" : this.props.classes.error}`}>
-                    Disk Space: {this.formatBytes(this.state.diskSpace)}
-                </TypoGraphy>
-                <TypoGraphy variant="caption" className={`${this.props.classes.caption} ${systemCpu > 2 ? "" : this.props.classes.error}`}>
-                    Processors: {systemCpu}
+                <TypoGraphy variant="caption" className={this.props.classes.caption}>
+                    System: <span className={systemStatus.endsWith("UP") ? ok : error}>{systemStatus}</span>
                 </TypoGraphy>
                 <TypoGraphy variant="caption" className={this.props.classes.caption}>
-                    Up Time: {this.formateUptime(timestamp)}
+                    DB: <em>{dbType}</em> - <span className={dbStatus.endsWith("UP") ? ok : error}>{dbStatus}</span>
+                </TypoGraphy>
+                <TypoGraphy variant="caption" className={this.props.classes.caption}>
+                    Disk Space: <span
+                    className={Math.round(diskSpace / 1024 / 1024 / 1024) > 1 ? ok : error}>{this.formatBytes(this.state.diskSpace)}</span>
+                </TypoGraphy>
+                <TypoGraphy variant="caption" className={this.props.classes.caption}>
+                    Processors: <span className={systemCpu > 2 ? ok : error}>{systemCpu}</span>
+                </TypoGraphy>
+                <TypoGraphy variant="caption" className={this.props.classes.caption}>
+                    Up Time: <span>/{this.formateUptime(timestamp)}</span>
                 </TypoGraphy>
             </>
         );
