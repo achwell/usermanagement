@@ -54,10 +54,16 @@ function UserActions(props) {
     if(!isLoggedIn) {
         return <Button variant="outlined" color="primary" onClick={doLogin}>Log in</Button>;
     }
+    const currentUser = authenticationService.getUserFromLocalCache();
+    let currentUserName = currentUser.firstName;
+    if(currentUser.middleName) {
+        currentUserName += " " + currentUser.middleName;
+    }
+    currentUserName += " " + currentUser.lastName;
 
     return (
         <div>
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} title={currentUserName}>
                 <Portrait/>
             </Button>
             <Menu
@@ -67,6 +73,7 @@ function UserActions(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
+                <MenuItem><strong>{currentUserName}</strong></MenuItem>
                 <MenuItem onClick={doProfileAction}>My account</MenuItem>
                 <MenuItem onClick={doChangePasswordAction}>Change password</MenuItem>
                 <MenuItem onClick={doLogout}>Log Out</MenuItem>

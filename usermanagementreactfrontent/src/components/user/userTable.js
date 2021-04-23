@@ -61,7 +61,7 @@ function Usertable(props) {
 
         },
         props.canSeeLogintime && {
-            field: 'lastLoginDate',
+            field: 'lastLoginDateDisplay',
             headerName: 'Last login date',
             flex: 1,
             type: 'date',
