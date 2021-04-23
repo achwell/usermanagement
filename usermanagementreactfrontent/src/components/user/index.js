@@ -228,8 +228,8 @@ const UserComponent = forwardRef((props, ref) => {
     return (
         <Fragment>
             <Usertable rows={users}
-                       edit={initUpdateUser}
-                       delete={initDeleteUser}
+                       edit={(readOnly || !canUpdate) ? () => {} : initUpdateUser}
+                       delete={(readOnly || !canDelete) ? () => {} : initDeleteUser}
                        canUpdate={canUpdate}
                        canDelete={canDelete}
                        canSeeLogintime={canSeeLogintime}
@@ -250,7 +250,7 @@ const UserComponent = forwardRef((props, ref) => {
                 submitReadOnly={submitReadOnly}
                 setSubmitReadOnly={setSubmitReadOnly}
                 isOpen={editOpen}
-                title={update ? "Update user" : "Create User"}
+                title={readOnly ? "View User" : update ? "Update user" : "Create User"}
                 submitTitle={update ? "Update" : "Create"}
                 onSubmit={update ? doUpdateUser : doCreateUser}
                 handleClose={() => setEditOpen(false)}

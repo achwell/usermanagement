@@ -1,8 +1,7 @@
 import React, {useRef, useState} from 'react';
 
 import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
-
-import {makeStyles} from '@material-ui/core/styles';
+import {createMuiTheme, responsiveFontSizes, makeStyles, MuiThemeProvider} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
@@ -17,6 +16,16 @@ import RegisterComponent from "./components/register";
 import UserComponent from "./components/user";
 import UserActions from "./components/useractions/useractions";
 import Systemstatus from "./components/systemstatus";
+
+let theme = createMuiTheme({
+    palette: {
+        type: "light",
+        primary: {
+            main: "rgba(0, 0, 0, 0.87)"
+        }
+    }
+});
+theme = responsiveFontSizes(theme);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -65,54 +74,57 @@ function App() {
 
     return (
         <Router>
-            <AppBar position="static" className={classes.root}>
-                <Toolbar>
-                    <TypoGraphy variant="h4" className={classes.h4}>
-                        User Management Portal
-                    </TypoGraphy>
-                    <Systemstatus ref={systemStatusComponentRef} classes={classes} setIntervalID={setIntervalID} intervalID={intervalID}/>
-                    {canCreate && <IconButton
-                        edge="start"
-                        className={classes.button}
-                        color="primary"
-                        aria-label="Create User"
-                        title="Create User"
-                        onClick={() => userComponentRef.current.create()}
-                    >
-                        <AddIcon/>
-                    </IconButton>
-                    }
-                    {isLoggedIn && <IconButton
-                        edge="start"
-                        className={classes.button}
-                        color="primary"
-                        aria-label="Reload users"
-                        title="Reload users"
-                        onClick={() => {
-                            userComponentRef.current.reload();
-                            updateSystemStatusComponent();
-                        }}
-                    >
-                        <RefreshIcon />
-                    </IconButton>
-                    }
-                    <UserActions isLoggedIn={isLoggedIn} logOutAction={logout} profileAction={userProfile} changePasswordAction={changePassword}/>
-                </Toolbar>
-            </AppBar>
-            <Switch>
-                <Route exact path="/login">
-                    {isLoggedIn ? <Redirect to="/user/management"/> : <LoginComponent callBack={setIsLoggedIn}/>}
-                </Route>
-                <Route exact path="/register">
-                    {isLoggedIn ? <Redirect to="/user/management"/> : <RegisterComponent/>}
-                </Route>
-                <Route exact path="/user/management">
-                    {isLoggedIn ? <UserComponent ref={userComponentRef}/> : <Redirect to="/login"/>}
-                </Route>
-                <Route path="/">
-                    {isLoggedIn ? <Redirect to="/user/management"/> : <Redirect to="/login"/>}
-                </Route>
-            </Switch>
+            <MuiThemeProvider theme={theme}>
+                <AppBar position="static" className={classes.root}>
+                    <Toolbar>
+                        <TypoGraphy variant="h4" className={classes.h4}>
+                            User Management Portal
+                        </TypoGraphy>
+                        <Systemstatus ref={systemStatusComponentRef} classes={classes} setIntervalID={setIntervalID}
+                                      intervalID={intervalID}/>
+                        {canCreate && <IconButton
+                            edge="start"
+                            className={classes.button}
+                            color="primary"
+                            aria-label="Create User"
+                            title="Create User"
+                            onClick={() => userComponentRef.current.create()}
+                        >
+                            <AddIcon/>
+                        </IconButton>
+                        }
+                        {isLoggedIn && <IconButton
+                            edge="start"
+                            className={classes.button}
+                            color="primary"
+                            aria-label="Reload users"
+                            title="Reload users"
+                            onClick={() => {
+                                userComponentRef.current.reload();
+                                updateSystemStatusComponent();
+                            }}
+                        >
+                            <RefreshIcon />
+                        </IconButton>
+                        }
+                        <UserActions isLoggedIn={isLoggedIn} logOutAction={logout} profileAction={userProfile} changePasswordAction={changePassword}/>
+                    </Toolbar>
+                </AppBar>
+                <Switch>
+                    <Route exact path="/login">
+                        {isLoggedIn ? <Redirect to="/user/management"/> : <LoginComponent callBack={setIsLoggedIn}/>}
+                    </Route>
+                    <Route exact path="/register">
+                        {isLoggedIn ? <Redirect to="/user/management"/> : <RegisterComponent/>}
+                    </Route>
+                    <Route exact path="/user/management">
+                        {isLoggedIn ? <UserComponent ref={userComponentRef}/> : <Redirect to="/login"/>}
+                    </Route>
+                    <Route path="/">
+                        {isLoggedIn ? <Redirect to="/user/management"/> : <Redirect to="/login"/>}
+                    </Route>
+                </Switch>
+            </MuiThemeProvider>
         </Router>
     );
 }

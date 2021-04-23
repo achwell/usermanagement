@@ -4,12 +4,12 @@ import red from '@material-ui/core/colors/red';
 import {ValidatorComponent} from 'react-material-ui-form-validator';
 import FormControl from "@material-ui/core/FormControl";
 
-const red300 = red['500'];
+const red700 = red['700'];
 
 const style = {
     right: 0,
     fontSize: '12px',
-    color: red300,
+    color: red700,
     position: 'absolute',
     marginTop: '-25px',
 };

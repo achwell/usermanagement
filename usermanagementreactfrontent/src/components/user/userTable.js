@@ -2,45 +2,62 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {format} from 'date-fns'
+import {makeStyles} from '@material-ui/core/styles';
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
+import CreateIcon from '@material-ui/icons/Create';
+import DeleteIcon from '@material-ui/icons/Delete';
+import LockIcon from '@material-ui/icons/Lock';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import {DataGrid, GridToolbar} from "@material-ui/data-grid";
+import red from '@material-ui/core/colors/red';
+import green from '@material-ui/core/colors/green';
+import IconButton from "@material-ui/core/IconButton";
+
+const red700 = red['700'];
+const green600 = green['600'];
+
+
+const useStyles = makeStyles((theme) => ({
+    iconRed: {color: red700},
+    iconGreen: {color: green600},
+    button: {
+        marginRight: theme.spacing(2),
+    },
+}));
 
 function Usertable(props) {
+
+    const classes = useStyles();
 
     const renderEmailCell = params => <a href={`mailto:${params.value}`}>{params.value}</a>
 
     const renderDateCell = params => <span>{params.value ? format(new Date(params.value), 'yyyy-MM-dd') : ''}</span>
 
     const renderActiveCell = params => {
-        const {active} = params.row;
-        let activeIcon = active ? "check_circle_outline" : "highlight_off";
-        let activeTitle = active ? "Active" : "Inactive";
-        let activeClass = active ? "green" : "red";
-        return (
-            <i className={`material-icons icon-image-preview ${activeClass}`} title={activeTitle}>{activeIcon}</i>
-        );
+        return <>{params.row.active ? <CheckIcon className={classes.iconGreen} title="Active"/> :
+            <ClearIcon className={classes.iconRed} title="Inactive"/>}</>;
     }
 
     const renderUnlockedCell = params => {
-        const {notLocked} = params.row;
-        let lockIcon = notLocked ? "lock_open" : "lock";
-        let title = notLocked ? "Unlocked" : "Locked";
-        let lockClass = notLocked ? "green" : "red";
-
-        return (
-            <i className={`material-icons icon-image-preview ${lockClass}`} title={title}>{lockIcon}</i>
-        );
+        return <>{params.row.notLocked ? <LockOpenIcon className={classes.iconGreen} title="Unlocked"/> :
+            <LockIcon className={classes.iconRed} title="Locked"/>}</>;
     };
 
     const renderActionsCell = params => {
-        const onClick = () => {
+        const onEdit = () => {
             return props.edit(params.row);
         };
         const onDelete = () => {
             return props.delete(params.row);
         };
         return <div>
-            {props.canUpdate && <i className="material-icons icon-image-preview pointer" title="Edit user" onClick={onClick}>edit_note</i>}
-            {props.canDelete && props.username !== params.row.username && <i className="material-icons icon-image-preview pointer" title="Delete user" onClick={onDelete}>delete</i>}
+            {props.canUpdate &&
+            <IconButton edge="start" className={classes.button} color="primary" aria-label="Edit user" title="Edit user"
+                        onClick={onEdit}><CreateIcon/></IconButton>}
+            {props.canDelete && props.username !== params.row.username &&
+            <IconButton edge="start" className={classes.button} color="primary" aria-label="Delete user"
+                        title="Delete user" onClick={onDelete}><DeleteIcon/></IconButton>}
         </div>;
     };
 
@@ -96,9 +113,10 @@ function Usertable(props) {
         value.roleName = value.role ? roleName ? roleName.replace(/^(ROLE_)/, "") : "" : "";
         return value;
     });
+
     return (
         <div style={{height: '90vh', width: '100%'}}>
-            <DataGrid rows={rows} columns={columns} pageSize={25} size="small" components={{Toolbar: GridToolbar,}} />
+            <DataGrid onRowClick={e => props.edit(e.row)}  rows={rows} columns={columns} pageSize={25} size="small" components={{Toolbar: GridToolbar,}} />
         </div>
     );
 }
