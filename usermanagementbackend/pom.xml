@@ -15,7 +15,8 @@
     <description>Backend for user management</description>
     <properties>
         <java.version>16</java.version>
-        <springdoc-openapi.version>1.5.7</springdoc-openapi.version>
+        <dependency-check-maven.version>6.1.5</dependency-check-maven.version>
+        <springdoc-openapi.version>1.5.8</springdoc-openapi.version>
     </properties>
     <dependencies>
         <dependency>
@@ -115,6 +116,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+        </dependency>
+        <dependency>
             <artifactId>junit-jupiter-api</artifactId>
             <groupId>org.junit.jupiter</groupId>
             <scope>test</scope>
@@ -137,7 +142,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
                 <configuration>
                     <release>${java.version}</release>
                 </configuration>
@@ -145,7 +149,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
                 <configuration>
                     <delimiters>
                         <delimiter>^</delimiter>
@@ -181,7 +184,7 @@
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
-                        <version>6.1.5</version>
+                        <version>${dependency-check-maven.version}</version>
                         <executions>
                             <execution>
                                 <goals>

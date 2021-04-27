@@ -9,14 +9,16 @@ public class EmailService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
 
-    public void sendNewPasswordEmail(String firstName, String password, String email) {
+    public Integer sendNewPasswordEmail(String firstName, String password, String email) {
         String cmd = String.format("sh echo \"Hello %s, Your new account password is: %s\"| mail -s \"axelwulff.net - New Password\" %s", firstName, password, email);
         LOGGER.debug("Mail command: " + cmd);
         try {
             Runtime.getRuntime().exec(cmd);
         } catch (Exception e) {
             LOGGER.error("Error sending mail", e);
+            return 0;
         }
+        return 1;
     }
 
 }

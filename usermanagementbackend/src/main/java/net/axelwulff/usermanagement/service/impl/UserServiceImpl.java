@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setNotLocked(true);
         Role role = roleRepository.findByName("ROLE_USER");
         user.setRole(role);
-        userRepository.save(user);
+        user = userRepository.save(user);
         LOGGER.info("New user password: " + password);
         emailService.sendNewPasswordEmail(firstName, password, email);
         return user;
@@ -112,9 +112,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         String password = generatePassword();
         user.setPassword(encodePassword(password));
         user.setJoinDate(LocalDate.now());
-        user.setUsername(lowerCase(user.getUsername()));
-        user.setEmail(lowerCase(user.getEmail()));
-        userRepository.save(user);
+        user = userRepository.save(user);
         emailService.sendNewPasswordEmail(user.getFirstName(), password, user.getEmail());
         LOGGER.info("New user password: " + password);
         return user;
@@ -132,8 +130,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.setNewPassword(null);
         }
         validateUsernameAndEmail(currentUsername, user.getUsername(), user.getEmail());
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
     @Override
