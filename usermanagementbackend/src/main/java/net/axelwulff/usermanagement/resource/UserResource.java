@@ -46,6 +46,7 @@ public class UserResource extends ExceptionHandling {
     }
 
     @PostMapping("/login")
+    @PreAuthorize("isAnonymous()")
     public ResponseEntity<User> login(@RequestBody User user) {
         authenticate(user.getUsername(), user.getPassword());
         User loginUser = userService.findUserByUsername(user.getUsername());
@@ -55,6 +56,7 @@ public class UserResource extends ExceptionHandling {
     }
 
     @GetMapping("/token/refresh")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> refreshAuthenticationToken(HttpServletRequest request, HttpServletResponse response) {
         String authToken = request.getHeader(AUTHORIZATION);
         String token;
@@ -69,30 +71,35 @@ public class UserResource extends ExceptionHandling {
     }
 
     @PostMapping("/register")
+    @PreAuthorize("isAnonymous()")
     public ResponseEntity<User> register(@Valid @RequestBody User user) throws UserNotFoundException, EmailExistException, UsernameExistException {
         User newUser = userService.register(user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getUsername(), user.getEmail(), user.getPhone());
         return new ResponseEntity<>(newUser, CREATED);
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('user:create')")
     public ResponseEntity<User> addNewUser(@Valid @RequestBody User user) throws UserNotFoundException, UsernameExistException, EmailExistException {
         User newUser = userService.addNewUser(user);
         return new ResponseEntity<>(newUser, CREATED);
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('user:update')")
     public ResponseEntity<User> update(@Valid @RequestBody User user) throws UserNotFoundException, UsernameExistException, EmailExistException {
         User updatedUser = userService.updateUser(user.getOldUsername(), user);
         return new ResponseEntity<>(updatedUser, OK);
     }
 
     @GetMapping("/{username}")
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<User> getUser(@PathVariable("username") String username) {
         User user = userService.findUserByUsername(username);
         return new ResponseEntity<>(user, OK);
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getUsers();
         return new ResponseEntity<>(users, OK);
@@ -101,18 +108,14 @@ public class UserResource extends ExceptionHandling {
     @GetMapping("/resetpassword/{email}")
     public ResponseEntity<HttpResponse> resetPassword(@Email @PathVariable("email") String email) throws EmailNotFoundException {
         userService.resetPassword(email);
-        return response(OK, EMAIL_SENT + email);
+        return new ResponseEntity<>(new HttpResponse(OK, EMAIL_SENT + email), OK);
     }
 
     @DeleteMapping("/{username}")
-    @PreAuthorize("hasAnyAuthority('user:delete')")
+    @PreAuthorize("hasAuthority('user:delete')")
     public ResponseEntity<HttpResponse> deleteUser(@PathVariable("username") String username) {
         userService.deleteUser(username);
-        return response(OK, USER_DELETED_SUCCESSFULLY);
-    }
-
-    private ResponseEntity<HttpResponse> response(HttpStatus httpStatus, String message) {
-        return new ResponseEntity<>(new HttpResponse(httpStatus, message), httpStatus);
+        return new ResponseEntity<>(new HttpResponse(OK, USER_DELETED_SUCCESSFULLY), OK);
     }
 
     private HttpHeaders getJwtHeader(UserDetails userDetails) {

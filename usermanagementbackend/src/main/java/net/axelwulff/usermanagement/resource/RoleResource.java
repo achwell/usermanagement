@@ -3,6 +3,7 @@ package net.axelwulff.usermanagement.resource;
 import net.axelwulff.usermanagement.domain.Role;
 import net.axelwulff.usermanagement.service.RoleService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +24,14 @@ public class RoleResource {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('role:read')")
     public ResponseEntity<List<Role>> getAllRoles() {
         List<Role> roles = roleService.getRoles();
         return new ResponseEntity<>(roles, OK);
     }
 
     @GetMapping("/{name}")
+    @PreAuthorize("hasAuthority('role:read')")
     public ResponseEntity<Role> getRole(@PathVariable("name") String name) {
         Role role = roleService.findByName(name);
         return new ResponseEntity<>(role, OK);
