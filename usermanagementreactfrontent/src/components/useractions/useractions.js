@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useHistory} from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 
@@ -30,6 +31,8 @@ function UserActions(props) {
 
     const {logOutAction, profileAction, changePasswordAction} = props;
 
+    const location = useLocation();
+
     const doLogout = () => {
         authenticationService.logout();
         setIsLoggedIn(false);
@@ -52,7 +55,7 @@ function UserActions(props) {
     }
 
     if(!isLoggedIn) {
-        return <Button variant="outlined" color="primary" onClick={doLogin}>Log in</Button>;
+        return location.pathname.endsWith("/login") ? null : <Button variant="outlined" color="primary" onClick={doLogin}>Log in</Button>;
     }
     const currentUser = authenticationService.getUserFromLocalCache();
     let currentUserName = currentUser.firstName;

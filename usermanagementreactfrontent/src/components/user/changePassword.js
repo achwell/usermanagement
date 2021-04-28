@@ -125,14 +125,11 @@ class ChangePassword extends Component {
 
 ChangePassword.propTypes = {
     existingPassword: PropTypes.string.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    setValidationErrors: PropTypes.func
+    onSubmit: PropTypes.func.isRequired
 };
 ChangePassword.defaultProps = {
     existingPassword: '',
     onSubmit: password => {
-    },
-    setValidationErrors: () => {
     }
 };
 

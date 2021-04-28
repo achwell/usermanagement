@@ -11,11 +11,13 @@ import userService from "../../service/user.service";
 
 import './helptext.scss';
 import Form from "../form/form";
+import ResetPassword from "./resetpassword";
 
 class LoginComponent extends Component {
 
-    state = {formData: {username: '', password: ''}}
+    state = {formData: {username: '', password: '', email: '', resetPasswordOpen: false, resetPasswordSubmitReadOnly: true}}
     form = createRef()
+    resetPasswordFormRef = createRef()
 
     baseUrl = process.env.REACT_APP_BACKEND_BASE_URL ? process.env.REACT_APP_BACKEND_BASE_URL : window.location.origin;
 
@@ -57,6 +59,17 @@ class LoginComponent extends Component {
         this.props.enqueueSnackbar(error, {variant: 'error'});
     }
 
+    setResetPasswordSubmitReadOnly = resetPasswordSubmitReadOnly => {
+        this.setState({resetPasswordSubmitReadOnly});
+    };
+
+    doResetPassword = () => {
+        const email = this.resetPasswordFormRef.current.submit();
+        userService.resetPassword(email);
+        this.setState({resetPasswordOpen: false, resetPasswordSubmitReadOnly: true, email: ''});
+    }
+
+
     render() {
         const {formData} = this.state;
         return (
@@ -85,10 +98,24 @@ class LoginComponent extends Component {
                     </div>
                     <br/>
                     <div className="group">
-                        Don't have an account?
-                        <Link to="/register">Sign Up</Link>
+                        Don't have an account?  <Link to="/register"><strong>Sign Up</strong></Link>
+                    </div>
+                    <br/>
+                    <div className="group">
+                        Forgotten Password?  <a onClick={() => this.setState({resetPasswordOpen: true})}><strong>Reset Password.</strong></a>
                     </div>
                 </Form>
+                <ResetPassword
+                    ref={this.resetPasswordFormRef}
+                    readOnly={false}
+                    submitReadOnly={this.state.resetPasswordSubmitReadOnly}
+                    setSubmitReadOnly={this.setResetPasswordSubmitReadOnly}
+                    isOpen={this.state.resetPasswordOpen}
+                    title="Reset Password"
+                    submitTitle="Reset Password"
+                    onSubmit={this.doResetPassword}
+                    handleClose={() => this.setState({resetPasswordOpen: false})}
+                />
                 <h2>Users</h2>
                 <div style={{display: "flex", justifyContent: "center", margin: 20, padding: 20}}>
                     <table>
@@ -105,25 +132,25 @@ class LoginComponent extends Component {
                             <td>roleuser</td>
                             <td>password</td>
                             <td>USER</td>
-                            <td>user:read</td>
+                            <td>user:read, role:read</td>
                         </tr>
                         <tr>
                             <td>managerauthorities</td>
                             <td>password</td>
                             <td>MANAGER_AUTHORITIES</td>
-                            <td>user:read, user:update</td>
+                            <td>user:read, user:update, role:read</td>
                         </tr>
                         <tr>
                             <td>adminauthorities</td>
                             <td>password</td>
                             <td>ADMIN_AUTHORITIES</td>
-                            <td>user:read, user:update, user:create, user:seelogintime, system:status</td>
+                            <td>user:read, user:update, user:create, user:seelogintime, role:read, system:status</td>
                         </tr>
                         <tr>
                             <td>superadminauthorities</td>
                             <td>password</td>
                             <td>SUPER_ADMIN_AUTHORITIES</td>
-                            <td>user:read, user:update, user:create, user:delete, user:seelogintime, system:status</td>
+                            <td>user:read, user:update, user:create, user:delete, user:seelogintime, role:read, system:status</td>
                         </tr>
                         </tbody>
                     </table>

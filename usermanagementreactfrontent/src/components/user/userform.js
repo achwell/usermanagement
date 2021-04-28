@@ -174,14 +174,12 @@ UserForm.propTypes = {
     initialValues: PropTypes.object,
     onSubmit: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
-    setValidationErrors: PropTypes.func,
     currentUserId: PropTypes.number
 };
 UserForm.defaultProps = {
     initialValues: {},
     onSubmit: () => {},
-    readOnly: false,
-    setValidationErrors: () => {}
+    readOnly: false
 };
 
 export default withSnackbar(UserForm);
