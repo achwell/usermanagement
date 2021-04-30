@@ -163,7 +163,7 @@
                     <classifier>exec</classifier>
                     <mainClass>net.axelwulff.usermanagement.UserManagementApplication</mainClass>
                     <profiles>
-                        <profile>default</profile>
+                        <profile>derby</profile>
                     </profiles>
                     <excludes>
                         <exclude>

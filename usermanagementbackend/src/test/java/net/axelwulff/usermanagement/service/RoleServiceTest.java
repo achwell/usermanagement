@@ -10,9 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.List;
 
+import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 import static net.axelwulff.usermanagement.testdata.ROLE.ROLE_USER;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -42,11 +42,11 @@ class RoleServiceTest {
 
     @Test
     void getRoles() {
-        when(roleRepository.findAll()).thenReturn(Arrays.stream(ROLE.values()).map(ROLE::getRole).collect(toList()));
+        when(roleRepository.findAll()).thenReturn(stream(ROLE.values()).map(ROLE::getRole).collect(toList()));
 
         List<Role> result = testSubject.getRoles();
 
         assertThat(result, notNullValue());
-        assertThat(result.size(), equalTo(2));
+        assertThat(result.size(), equalTo(4));
     }
 }

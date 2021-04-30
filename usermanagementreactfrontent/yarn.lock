@@ -1908,14 +1908,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/core@npm:^4.11.3":
-  version: 4.11.3
-  resolution: "@material-ui/core@npm:4.11.3"
+"@material-ui/core@npm:^4.11.4":
+  version: 4.11.4
+  resolution: "@material-ui/core@npm:4.11.4"
   dependencies:
     "@babel/runtime": ^7.4.4
-    "@material-ui/styles": ^4.11.3
+    "@material-ui/styles": ^4.11.4
     "@material-ui/system": ^4.11.3
-    "@material-ui/types": ^5.1.0
+    "@material-ui/types": 5.1.0
     "@material-ui/utils": ^4.11.2
     "@types/react-transition-group": ^4.2.0
     clsx: ^1.0.4
@@ -1931,13 +1931,13 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 1bca52d08e1d7d8fc52769cd72692f1e3dd99e8a20450f0f2205f8b3633165f868f1339e719937314d12fb06b43fd8fb578ac2eb9e502b7f83428a7595694cb7
+  checksum: 98c5e25c33e6afa51f1668ffa055ae5aee007a96e69b48f7f6d7df4a14d1bb6a3524eaacab282c862ba9dabdcea75d4d8df26d4e805ddf95a3e7697375b61b42
   languageName: node
   linkType: hard
 
-"@material-ui/data-grid@npm:^4.0.0-alpha.26":
-  version: 4.0.0-alpha.26
-  resolution: "@material-ui/data-grid@npm:4.0.0-alpha.26"
+"@material-ui/data-grid@npm:^4.0.0-alpha.27":
+  version: 4.0.0-alpha.27
+  resolution: "@material-ui/data-grid@npm:4.0.0-alpha.27"
   dependencies:
     "@material-ui/utils": ^5.0.0-alpha.14
     prop-types: ^15.7.2
@@ -1945,7 +1945,7 @@ __metadata:
   peerDependencies:
     "@material-ui/core": ^4.9.12 || ^5.0.0-alpha.22
     react: ^17.0.0
-  checksum: 76b6b7ab3d256f6ed43607eb6d114d5f737ca1a808d93ce088ea4ffaf7e73c176a4b576da58196a6b681ea869bf5dcb81031a030173d9be603fa8c6ed9583211
+  checksum: 5ba51fbe9cc7009d99d84576f65aa221c376f2314c13bef92e241f219156fe76e302a540401c9d582c04d0e503de7efc7a2bb2477b2403e8a214d951ed242aef
   languageName: node
   linkType: hard
 
@@ -1966,13 +1966,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/styles@npm:^4.11.3":
-  version: 4.11.3
-  resolution: "@material-ui/styles@npm:4.11.3"
+"@material-ui/styles@npm:^4.11.4":
+  version: 4.11.4
+  resolution: "@material-ui/styles@npm:4.11.4"
   dependencies:
     "@babel/runtime": ^7.4.4
     "@emotion/hash": ^0.8.0
-    "@material-ui/types": ^5.1.0
+    "@material-ui/types": 5.1.0
     "@material-ui/utils": ^4.11.2
     clsx: ^1.0.4
     csstype: ^2.5.2
@@ -1993,7 +1993,7 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: fed7007d4934181214963ada961aa859b2900179eb30316d9d714405728a397fa81307d25e94c19dffea193ee68f0aa41457db3ec2d3ce351a45747c5ceed426
+  checksum: bbca7a43f95b3fae876b656ba163759cd6c26e55ce6c23da8392cbab4ac22cfb32c8c753c8a8e124e3d96cce7d60cb4db188cf2b1437ef6dc53d1c0d28b2fd86
   languageName: node
   linkType: hard
 
@@ -2016,7 +2016,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/types@npm:^5.1.0":
+"@material-ui/types@npm:5.1.0":
   version: 5.1.0
   resolution: "@material-ui/types@npm:5.1.0"
   peerDependencies:
@@ -2390,14 +2390,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^13.1.5":
-  version: 13.1.5
-  resolution: "@testing-library/user-event@npm:13.1.5"
+"@testing-library/user-event@npm:^13.1.8":
+  version: 13.1.8
+  resolution: "@testing-library/user-event@npm:13.1.8"
   dependencies:
     "@babel/runtime": ^7.12.5
   peerDependencies:
     "@testing-library/dom": ">=7.21.4"
-  checksum: 934ec3b8ee6848730f57179cecd919803c5e91d4417006446ca62be6d8886dc3d7b7bb944ec6565ec7a2464d80074dbd8da0dcb63da1366f553015c20e414440
+  checksum: bc7760cb34f06b44193e80fb0429945c75b5891995142a524ff5252e5caa7777616d1e1a6247f255621adfea33f9718ab3e8f7b10efec58b38ee84a63b3c2586
   languageName: node
   linkType: hard
 
@@ -15839,14 +15839,14 @@ resolve@^2.0.0-next.3:
   version: 0.0.0-use.local
   resolution: "usermanagementreactfrontent@workspace:."
   dependencies:
-    "@material-ui/core": ^4.11.3
-    "@material-ui/data-grid": ^4.0.0-alpha.26
+    "@material-ui/core": ^4.11.4
+    "@material-ui/data-grid": ^4.0.0-alpha.27
     "@material-ui/icons": ^4.11.2
-    "@material-ui/styles": ^4.11.3
+    "@material-ui/styles": ^4.11.4
     "@testing-library/dom": ^7.30.4
     "@testing-library/jest-dom": ^5.12.0
     "@testing-library/react": ^11.2.6
-    "@testing-library/user-event": ^13.1.5
+    "@testing-library/user-event": ^13.1.8
     "@typescript-eslint/eslint-plugin": ^4.22.0
     "@typescript-eslint/parser": ^4.22.0
     axios: ^0.21.1
