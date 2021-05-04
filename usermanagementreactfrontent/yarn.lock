@@ -10327,10 +10327,10 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"material-icons@npm:^0.6.1":
-  version: 0.6.1
-  resolution: "material-icons@npm:0.6.1"
-  checksum: 0b26b8cbd3450b643da1bee215d6ae22030d81a2b75cd21ff1ad54e376e96559d1e07d3f4c82b3cd1ecfc466d16230dd68c95b299330a12a74287f2aa0f4248c
+"material-icons@npm:^0.6.2":
+  version: 0.6.2
+  resolution: "material-icons@npm:0.6.2"
+  checksum: 8056da0f33357af0eff25bb613d7d2c1fef83430e4b3c9fc834904f1a9c6cc7e2dd0b836d7ebd2aeae38627bb399f1065eff1883ec166b8a4747ed65de308685
   languageName: node
   linkType: hard
 
@@ -15863,7 +15863,7 @@ resolve@^2.0.0-next.3:
     eslint-plugin-react-hooks: ^4.2.0
     jwt-decode: ^3.1.2
     lodash: ^4.17.21
-    material-icons: ^0.6.1
+    material-icons: ^0.6.2
     node-sass: ^5.0.0
     notistack: ^1.0.6
     prop-types: ^15.7.2

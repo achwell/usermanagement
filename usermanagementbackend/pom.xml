@@ -15,7 +15,7 @@
     <description>Backend for user management</description>
     <properties>
         <java.version>16</java.version>
-        <dependency-check-maven.version>6.1.5</dependency-check-maven.version>
+        <dependency-check-maven.version>6.1.6</dependency-check-maven.version>
         <springdoc-openapi.version>1.5.8</springdoc-openapi.version>
     </properties>
     <dependencies>
