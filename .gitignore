@@ -2,3 +2,7 @@
 *.iml
 /.run/
 .DS_Store
+.project
+.settings/
+.vscode/
+.classpath

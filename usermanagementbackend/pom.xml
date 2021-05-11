@@ -15,6 +15,11 @@
     <description>Backend for user management</description>
     <properties>
         <java.version>16</java.version>
+        <maven.compile.release>${java.version}</maven.compile.release>
+        <maven.source.skip>false</maven.source.skip>
+        <maven.javadoc.skip>false</maven.javadoc.skip>
+        <start-class>net.axelwulff.usermanagement.UserManagementApplication</start-class>
+
         <dependency-check-maven.version>6.1.6</dependency-check-maven.version>
         <springdoc-openapi.version>1.5.8</springdoc-openapi.version>
     </properties>
@@ -114,10 +119,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <artifactId>junit-jupiter-api</artifactId>
@@ -144,6 +162,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <release>${java.version}</release>
+                    <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
             <plugin>
@@ -153,6 +172,7 @@
                     <delimiters>
                         <delimiter>^</delimiter>
                     </delimiters>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
                 </configuration>
             </plugin>
             <plugin>
@@ -161,7 +181,7 @@
                 <configuration>
                     <executable>true</executable>
                     <classifier>exec</classifier>
-                    <mainClass>net.axelwulff.usermanagement.UserManagementApplication</mainClass>
+                    <mainClass>${start-class}</mainClass>
                     <profiles>
                         <profile>derby</profile>
                     </profiles>

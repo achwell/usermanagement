@@ -5,6 +5,8 @@ server:
   jetty:
     accesslog:
       enabled: true
+  servlet:
+    context-path: /user
 
 management:
   endpoint:
@@ -13,7 +15,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: '*'
   trace:
     http:
       enabled: true
