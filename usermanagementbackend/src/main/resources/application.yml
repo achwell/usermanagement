@@ -5,8 +5,6 @@ server:
   jetty:
     accesslog:
       enabled: true
-  servlet:
-    context-path: /user
 
 management:
   endpoint:

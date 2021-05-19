@@ -6,7 +6,6 @@
   },
   "version": "0.1.0",
   "private": true,
-  "homepage": "/user",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
