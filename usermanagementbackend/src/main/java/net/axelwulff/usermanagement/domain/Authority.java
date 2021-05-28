@@ -1,5 +1,7 @@
 package net.axelwulff.usermanagement.domain;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +17,7 @@ public class Authority extends BaseDomainObject {
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @Length(min = 1, max = 50)
     private String name;
 
     public Long getId() {

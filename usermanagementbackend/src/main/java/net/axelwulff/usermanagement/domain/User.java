@@ -1,6 +1,7 @@
 package net.axelwulff.usermanagement.domain;
 
 import net.axelwulff.usermanagement.converter.BooleanConverter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -24,6 +25,7 @@ public class User extends BaseDomainObject {
 
     @Column(nullable = false)
     @NotEmpty
+    @Length(min = 1, max = 255)
     private String firstName;
 
     @Column()
@@ -31,6 +33,7 @@ public class User extends BaseDomainObject {
 
     @Column(nullable = false)
     @NotEmpty
+    @Length(min = 1, max = 255)
     private String lastName;
 
     @Column(nullable = false, unique = true)
@@ -50,10 +53,12 @@ public class User extends BaseDomainObject {
     @Column(nullable = false, unique = true)
     @Email
     @NotEmpty
+    @Length(min = 1, max = 255)
     private String email;
 
     @Column(nullable = false)
     @NotEmpty
+    @Length(min = 1, max = 15)
     private String phone;
 
     @Column()

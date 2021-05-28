@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/supportportal
-    username: supportportal
-    password: supportportal
+    url: jdbc:mysql://localhost:3306/usermanager
+    username: usermanager
+    password: usermanager
     platform: mysql
     initialization-mode: always
   jpa:

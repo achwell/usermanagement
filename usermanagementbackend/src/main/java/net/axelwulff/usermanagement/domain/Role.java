@@ -1,5 +1,7 @@
 package net.axelwulff.usermanagement.domain;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -14,6 +16,7 @@ public class Role extends BaseDomainObject {
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @Length(min = 1, max = 50)
     private String name;
 
     @ManyToMany(fetch = LAZY)

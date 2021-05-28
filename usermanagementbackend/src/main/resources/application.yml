@@ -44,6 +44,7 @@ spring:
       auto: create-drop
     show_sql: true
   jpa:
+    defer-datasource-initialization: true
     hibernate:
       ddl-auto: create-drop
       naming:

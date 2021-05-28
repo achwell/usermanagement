@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
-    url: jdbc:derby:memory:myDb;create=true
-    username: supportportal
-    password: supportportal
+    url: jdbc:derby:memory:usermanager;create=true
+    username: usermanager
+    password: usermanager
     platform: derby
     initialization-mode: always
   jpa:
