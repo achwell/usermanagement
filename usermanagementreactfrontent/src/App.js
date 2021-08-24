@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 
 import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
-import {createMuiTheme, responsiveFontSizes, makeStyles, MuiThemeProvider} from '@material-ui/core/styles';
+import {createTheme, responsiveFontSizes, makeStyles, MuiThemeProvider} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
@@ -17,7 +17,7 @@ import UserComponent from "./components/user";
 import UserActions from "./components/useractions/useractions";
 import Systemstatus from "./components/systemstatus";
 
-let theme = createMuiTheme({
+let theme = createTheme({
     palette: {
         type: "light",
         primary: {
