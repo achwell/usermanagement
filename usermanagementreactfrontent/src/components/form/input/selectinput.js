@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import FormControl from "@material-ui/core/FormControl";
-import {FormHelperText, InputLabel, Select} from "@material-ui/core";
+import FormControl from "@mui/material/FormControl";
+import {FormHelperText, InputLabel, Select} from "@mui/material";
 
 export const Selectinput = ({id, label, value, required, readOnly, onChange, hasError, errorMessage, options}) => {
     return (

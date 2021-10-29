@@ -1,17 +1,24 @@
 import React from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import PropTypes from 'prop-types';
 
 export const Modal = ({isOpen, handleClose, title, subTitle, children, handleSubmit, submitTitle, submitReadOnly}) => {
     return (
-        <Dialog open={isOpen} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+        <Dialog
+            open={isOpen}
+            onClose={(event, reason) => {
+                if(reason !== 'backdropClick') {
+                    handleClose(event, reason);
+                }
+            }}
+            aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
             <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
             <DialogContentText id="alert-dialog-subTitle">{subTitle}</DialogContentText>
             <DialogContent>{children}</DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} color="primary">Close</Button>
+                <Button onClick={handleClose} >Close</Button>
                 {handleSubmit && submitTitle &&
-                <Button onClick={handleSubmit} color="primary" disabled={submitReadOnly}>{submitTitle}</Button>}
+                <Button onClick={handleSubmit} disabled={submitReadOnly}>{submitTitle}</Button>}
             </DialogActions>
         </Dialog>
     )

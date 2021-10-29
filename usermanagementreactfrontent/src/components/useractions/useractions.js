@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from 'react';
-import {useHistory} from "react-router-dom";
-import { useLocation } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useHistory, useLocation} from "react-router-dom";
 
 import PropTypes from 'prop-types';
 
-import Button from "@material-ui/core/Button";
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Portrait from '@material-ui/icons/Portrait';
+import Button from "@mui/material/Button";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Portrait from '@mui/icons-material/Portrait';
 
 import authenticationService from "../../service/autehentication.service";
+import {IconButton} from "@mui/material";
 
 function UserActions(props) {
 
@@ -55,7 +55,7 @@ function UserActions(props) {
     }
 
     if(!isLoggedIn) {
-        return location.pathname.endsWith("/login") ? null : <Button variant="outlined" color="primary" onClick={doLogin}>Log in</Button>;
+        return location.pathname.endsWith("/login") ? null : <Button variant="outlined" onClick={doLogin}>Log in</Button>;
     }
     const currentUser = authenticationService.getUserFromLocalCache();
     let currentUserName = currentUser.firstName;
@@ -66,9 +66,9 @@ function UserActions(props) {
 
     return (
         <div>
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} title={currentUserName}>
+            <IconButton size="large" edge="start" aria-controls="simple-menu" color="secondary" aria-haspopup="true" onClick={handleClick} title={currentUserName}>
                 <Portrait/>
-            </Button>
+            </IconButton>
             <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}

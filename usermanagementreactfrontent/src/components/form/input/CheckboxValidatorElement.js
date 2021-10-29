@@ -1,8 +1,7 @@
 import React from "react";
-import {InputLabel, Checkbox} from "@material-ui/core";
-import red from '@material-ui/core/colors/red';
 import {ValidatorComponent} from 'react-material-ui-form-validator';
-import FormControl from "@material-ui/core/FormControl";
+import {red} from "@mui/material/colors";
+import {Checkbox, FormControl, InputLabel} from "@mui/material";
 
 const red700 = red['700'];
 

@@ -2,7 +2,7 @@ import React, {Component, createRef} from "react";
 import {Link, withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
 import TextElement from "../form/input/TextElement";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 import {withSnackbar} from "notistack";
 
 import authenticationService from "../../service/autehentication.service";
@@ -94,7 +94,7 @@ class LoginComponent extends Component {
                         errorMessages={['Password is required']}
                         validatorListener={this.validatorListener}/>
                     <div>
-                        <Button variant="outlined" color="primary" type="submit">Log in</Button>
+                        <Button variant="outlined" type="submit">Log in</Button>
                     </div>
                     <br/>
                     <div className="group">
@@ -102,7 +102,7 @@ class LoginComponent extends Component {
                     </div>
                     <br/>
                     <div className="group">
-                        Forgotten Password?  <a onClick={() => this.setState({resetPasswordOpen: true})}><strong>Reset Password.</strong></a>
+                        Forgotten Password?  <Button onClick={() => this.setState({resetPasswordOpen: true})}><strong>Reset Password.</strong></Button>
                     </div>
                 </Form>
                 <ResetPassword

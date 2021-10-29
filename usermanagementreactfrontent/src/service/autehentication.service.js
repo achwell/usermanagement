@@ -4,39 +4,25 @@ import usermanagerapi from "../api/usermanagerapi";
 
 //functions to make api calls
 const authenticationService = {
-    register: (body) => {
-        return usermanagerapi.post('/user/register', body);
-    },
-    login: (body) => {
-        return usermanagerapi.post('/user/login', body);
-    },
-    refreshToken: () => {
-        return usermanagerapi.get('/token/refresh');
-    },
-    logout: () => {
-        localStorage.removeItem('user');
-        localStorage.removeItem('users');
-        localStorage.removeItem('roles');
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-    },
 
-    saveToken(token) {
-        localStorage.setItem('token', token);
-    },
+    register: body => usermanagerapi.post('/user/register', body),
 
-    addUserToLocalCache(body) {
-        localStorage.setItem('user', JSON.stringify(body));
-    },
+    login: body => usermanagerapi.post('/user/login', body),
+
+    refreshToken: () => usermanagerapi.get('/token/refresh'),
+
+    logout: () => localStorage.clear(),
+
+    saveToken: token => localStorage.setItem('token', token),
+
+    addUserToLocalCache: user => localStorage.setItem('user', JSON.stringify(user)),
 
     getUserFromLocalCache() {
         const user = localStorage.getItem('user');
         return user ? JSON.parse(user) : {};
     },
 
-    getToken() {
-        return localStorage.getItem('token');
-    },
+    getToken: () => localStorage.getItem('token'),
 
     isLoggedIn() {
         let token = this.getToken();

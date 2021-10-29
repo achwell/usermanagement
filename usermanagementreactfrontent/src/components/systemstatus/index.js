@@ -1,5 +1,5 @@
 import React from 'react';
-import TypoGraphy from '@material-ui/core/Typography'
+import TypoGraphy from '@mui/material/Typography'
 import actuatorService from "../../service/actuator.service";
 import authenticationService from "../../service/autehentication.service";
 

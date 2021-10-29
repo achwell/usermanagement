@@ -1,47 +1,52 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import PropTypes from 'prop-types';
 
 import {format} from 'date-fns'
-import {makeStyles} from '@material-ui/core/styles';
-import CheckIcon from '@material-ui/icons/Check';
-import ClearIcon from '@material-ui/icons/Clear';
-import CreateIcon from '@material-ui/icons/Create';
-import DeleteIcon from '@material-ui/icons/Delete';
-import LockIcon from '@material-ui/icons/Lock';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
-import {DataGrid, GridToolbar} from "@material-ui/data-grid";
-import red from '@material-ui/core/colors/red';
-import green from '@material-ui/core/colors/green';
-import IconButton from "@material-ui/core/IconButton";
+import {DataGrid, GridToolbar} from '@mui/x-data-grid';
+import {green, red} from "@mui/material/colors";
+import {Check, Clear, Create, Delete, Lock, LockOpen} from "@mui/icons-material";
+import {IconButton} from "@mui/material";
+
+const PREFIX = 'Usertable';
+
+const classes = {
+    iconRed: `${PREFIX}-iconRed`,
+    iconGreen: `${PREFIX}-iconGreen`,
+    button: `${PREFIX}-button`
+};
 
 const red700 = red['700'];
 const green600 = green['600'];
 
 
-const useStyles = makeStyles((theme) => ({
-    iconRed: {color: red700},
-    iconGreen: {color: green600},
-    button: {
+const Root = styled('div')((
+    {
+        theme
+    }
+) => ({
+    [`& .${classes.iconRed}`]: {color: red700},
+    [`& .${classes.iconGreen}`]: {color: green600},
+
+    [`& .${classes.button}`]: {
         marginRight: theme.spacing(2),
-    },
+    }
 }));
 
 function Usertable(props) {
-
-    const classes = useStyles();
 
     const renderEmailCell = params => <a href={`mailto:${params.value}`}>{params.value}</a>
 
     const renderDateCell = params => <span>{params.value ? format(new Date(params.value), 'yyyy-MM-dd') : ''}</span>
 
     const renderActiveCell = params => {
-        return <>{params.row.active ? <CheckIcon className={classes.iconGreen} title="Active"/> :
-            <ClearIcon className={classes.iconRed} title="Inactive"/>}</>;
+        return <Root>{params.row.active ? <Check className={classes.iconGreen} title="Active"/> :
+            <Clear className={classes.iconRed} title="Inactive"/>}</Root>;
     }
 
     const renderUnlockedCell = params => {
-        return <>{params.row.notLocked ? <LockOpenIcon className={classes.iconGreen} title="Unlocked"/> :
-            <LockIcon className={classes.iconRed} title="Locked"/>}</>;
+        return <Root>{params.row.notLocked ? <LockOpen className={classes.iconGreen} title="Unlocked"/> :
+            <Lock className={classes.iconRed} title="Locked"/>}</Root>;
     };
 
     const renderActionsCell = params => {
@@ -51,14 +56,17 @@ function Usertable(props) {
         const onDelete = () => {
             return props.delete(params.row);
         };
-        return <div>
-            {props.canUpdate &&
-            <IconButton edge="start" className={classes.button} color="primary" aria-label="Edit user" title="Edit user"
-                        onClick={onEdit}><CreateIcon/></IconButton>}
-            {props.canDelete && props.username !== params.row.username &&
-            <IconButton edge="start" className={classes.button} color="primary" aria-label="Delete user"
-                        title="Delete user" onClick={onDelete}><DeleteIcon/></IconButton>}
-        </div>;
+        return (
+            <Root>
+                {props.canUpdate &&
+                <IconButton edge="start" className={classes.button} color="primary" aria-label="Edit user"
+                            title="Edit user"
+                            onClick={onEdit}><Create/></IconButton>}
+                {props.canDelete && props.username !== params.row.username &&
+                <IconButton edge="start" className={classes.button} color="primary" aria-label="Delete user"
+                            title="Delete user" onClick={onDelete}><Delete/></IconButton>}
+            </Root>
+        );
     };
 
     const columns = [
@@ -116,7 +124,8 @@ function Usertable(props) {
 
     return (
         <div style={{height: '90vh', width: '100%'}}>
-            <DataGrid onRowClick={e => props.edit(e.row)}  rows={rows} columns={columns} pageSize={25} size="small" components={{Toolbar: GridToolbar,}} />
+            <DataGrid onRowClick={e => props.edit(e.row)} rows={rows} columns={columns} pageSize={25} size="small"
+                      components={{Toolbar: GridToolbar,}}/>
         </div>
     );
 }

@@ -2,7 +2,7 @@ import React, {Component, createRef} from 'react';
 import {Link, withRouter} from "react-router-dom";
 import authenticationService from "../../service/autehentication.service";
 import TextElement from "../form/input/TextElement";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 import {withSnackbar} from "notistack";
 import Form from "../form/form";
 
@@ -136,7 +136,7 @@ class RegisterComponent extends Component {
                     errorMessages={['Phone is required']}
                     validatorListener={this.validatorListener}/>
                 <div>
-                    <Button variant="outlined" color="primary" type="submit" disabled={this.state.disabled}>Register</Button>
+                    <Button variant="outlined" type="submit" disabled={this.state.disabled}>Register</Button>
                 </div>
                 <div className="group">
                     Already have an account?

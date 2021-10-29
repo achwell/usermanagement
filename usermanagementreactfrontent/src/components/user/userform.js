@@ -1,7 +1,7 @@
 import React, {Component, createRef} from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import MenuItem from '@material-ui/core/MenuItem';
+import MenuItem from '@mui/material/MenuItem';
 
 import {withSnackbar} from "notistack";
 import roleService from "../../service/role.service";

@@ -1,131 +1,80 @@
 import React, {useRef, useState} from 'react';
 
 import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
-import {createTheme, responsiveFontSizes, makeStyles, MuiThemeProvider} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import Toolbar from '@material-ui/core/Toolbar'
-import TypoGraphy from '@material-ui/core/Typography'
-
-import authenticationService from "./service/autehentication.service";
 
 import LoginComponent from "./components/login";
 import RegisterComponent from "./components/register";
 import UserComponent from "./components/user";
-import UserActions from "./components/useractions/useractions";
-import Systemstatus from "./components/systemstatus";
+import TopMenu from "./components/TopMenu";
+import {createTheme, responsiveFontSizes, ThemeProvider} from "@mui/material/styles";
+import {adaptV4Theme, StyledEngineProvider} from "@mui/material";
+import authenticationService from "./service/autehentication.service";
 
-let theme = createTheme({
+let theme = createTheme(adaptV4Theme({
     palette: {
-        type: "light",
+        mode: "light",
         primary: {
             main: "rgba(0, 0, 0, 0.87)"
+        },
+        secondary: {
+            main: "rgba(255, 255, 255, 0.87)"
         }
-    }
-});
+    },
+    props: {
+        MuiFormControl: {
+            variant: 'standard',
+        },
+        MuiSelect: {
+            variant: 'standard',
+        },
+        MuiTextField: {
+            variant: 'standard',
+        },
+        MuiLink: {
+            underline: 'hover',
+        },
+    },
+}));
 theme = responsiveFontSizes(theme);
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        backgroundColor: "#eee"
-    },
-    button: {
-        marginRight: theme.spacing(2),
-    },
-    h4: {
-        flexGrow: 1,
-        color: "rgba(0, 0, 0, 0.87)"
-    },
-    caption: {
-        flexGrow: 1,
-        color: "rgba(0, 0, 0, 0.87)"
-    },
-    ok: {
-        color: "rgba(67, 160, 71, 1)"
-    },
-    error: {
-        color: "rgba(211, 47, 47, 1)"
-    }
-}));
-
 function App() {
-
-    const classes = useStyles();
-    const canCreate = authenticationService.hasAuthority("user:create");
-
     const userComponentRef = useRef();
-    const systemStatusComponentRef = useRef();
 
-    const [isLoggedIn, setIsLoggedIn] = useState(authenticationService.isLoggedIn());
-    const [intervalID, setIntervalID] = useState(null);
-
+    const reload = () => userComponentRef.current.reload();
+    const createUser = () => userComponentRef.current.create();
     const userProfile = () => userComponentRef.current.userProfile();
     const changePassword = () => userComponentRef.current.changePassword();
-
-    const updateSystemStatusComponent = () => systemStatusComponentRef.current.reloadData(false);
-
-    function logout(isLoggedIn) {
-        clearInterval(intervalID);
-        setIsLoggedIn(isLoggedIn);
-    }
+    const [isLoggedIn, setIsLoggedIn] = useState(authenticationService.isLoggedIn());
 
     return (
-        <Router>
-            <MuiThemeProvider theme={theme}>
-                <AppBar position="static" className={classes.root}>
-                    <Toolbar>
-                        <TypoGraphy variant="h4" className={classes.h4}>
-                            User Management Portal
-                        </TypoGraphy>
-                        <Systemstatus ref={systemStatusComponentRef} classes={classes} setIntervalID={setIntervalID}
-                                      intervalID={intervalID}/>
-                        {canCreate && <IconButton
-                            edge="start"
-                            className={classes.button}
-                            color="primary"
-                            aria-label="Create User"
-                            title="Create User"
-                            onClick={() => userComponentRef.current.create()}
-                        >
-                            <AddIcon/>
-                        </IconButton>
-                        }
-                        {isLoggedIn && <IconButton
-                            edge="start"
-                            className={classes.button}
-                            color="primary"
-                            aria-label="Reload users"
-                            title="Reload users"
-                            onClick={() => {
-                                userComponentRef.current.reload();
-                                updateSystemStatusComponent();
-                            }}
-                        >
-                            <RefreshIcon />
-                        </IconButton>
-                        }
-                        <UserActions isLoggedIn={isLoggedIn} logOutAction={logout} profileAction={userProfile} changePasswordAction={changePassword}/>
-                    </Toolbar>
-                </AppBar>
-                <Switch>
-                    <Route exact path="/login">
-                        {isLoggedIn ? <Redirect to="/user/management"/> : <LoginComponent callBack={setIsLoggedIn}/>}
-                    </Route>
-                    <Route exact path="/register">
-                        {isLoggedIn ? <Redirect to="/user/management"/> : <RegisterComponent/>}
-                    </Route>
-                    <Route exact path="/user/management">
-                        {isLoggedIn ? <UserComponent ref={userComponentRef}/> : <Redirect to="/login"/>}
-                    </Route>
-                    <Route path="/">
-                        {isLoggedIn ? <Redirect to="/user/management"/> : <Redirect to="/login"/>}
-                    </Route>
-                </Switch>
-            </MuiThemeProvider>
-        </Router>
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+                <Router>
+                    <TopMenu
+                        reload={reload}
+                        changePassword={changePassword}
+                        createUser={createUser}
+                        userProfile={userProfile}
+                        isLoggedIn={isLoggedIn}
+                        setIsLoggedIn={setIsLoggedIn}/>
+                    <Switch>
+                        <Route exact path="/login">
+                            {isLoggedIn ? <Redirect to="/user/management"/> :
+                                <LoginComponent callBack={setIsLoggedIn}/>}
+                        </Route>
+                        <Route exact path="/register">
+                            {isLoggedIn ? <Redirect to="/user/management"/> : <RegisterComponent/>}
+                        </Route>
+                        <Route exact path="/user/management">
+                            {isLoggedIn ? <UserComponent ref={userComponentRef}/> : <Redirect to="/login"/>}
+                        </Route>
+                        <Route path="/">
+                            {isLoggedIn ? <Redirect to="/user/management"/> : <Redirect to="/login"/>}
+                        </Route>
+                    </Switch>
+                </Router>
+            </ThemeProvider>
+        </StyledEngineProvider>
     );
 }
 
